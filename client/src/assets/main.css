@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+:root {
+  --secondary: oklch(70.8% 0 0);
+}

@@ -1,5 +1,5 @@
 <template>
 
-  <h1>Hello World</h1>
+  <RouterLink :to="{name: 'login'}" class="button">Login</RouterLink>
 
 </template>
