@@ -1,14 +1,18 @@
 <template>
-  <div class="w-1/4 p-4 bg-gray-200 rounded-lg shadow-md">
-    <h2 class="text-lg font-bold mb-4">KEUANGAN</h2>
-    <ul>
-      <li class="mb-2">BARANG</li>
-      <li class="mb-2">UTANG</li>
-      <li>KASIR</li>
-    </ul>
+  
+  <div class="flex flex-col w-40 h-60 justify-evenly p-8 bg-gray-200 rounded-lg shadow-md">
+    <RouterLink :to="{name: 'keuangan'}">KEUANGAN</RouterLink>
+    <RouterLink :to="{name: 'home'}">BARANG</RouterLink>
+    <RouterLink :to="{name: 'home'}">UTANG</RouterLink>
+    <RouterLink :to="{name: 'home'}">KASIR</RouterLink>
   </div>
+
 </template>
 
-<script setup>
+<style scoped>
 
-</script>
+  a.router-link-active {
+    font-weight: bold;
+  }
+
+</style>

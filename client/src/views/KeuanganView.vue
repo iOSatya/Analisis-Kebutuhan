@@ -1,52 +1,74 @@
 <template>
-  <div id="app" class="flex p-8">
+  <div class="flex h-screen items-center p-20">
     <Navigator />
-
-    <div class="flex-1 ml-8 p-4 bg-white rounded-lg shadow-md">
-      <h1 class="text-xl font-bold mb-4">Financial Overview</h1>
-
-      <div class="mb-4 flex items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
-        <p>Pendapatan Periode 20-3-2025 : 11000</p>
+    <div class="financial-details w-full m-12">
+      <div class="detail-item">
+        <span class="icon">📅</span>
+        <span>Pendapatan Periode {{ periode }}: {{ pendapatanPeriode }}</span>
       </div>
-
-      <div class="mb-4 flex items-center">
-         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-        </svg>
-        <p>Ekspektasi Pendapatan : 100000</p>
+      <div class="detail-item">
+        <span class="icon">✏️</span>
+        <span>Ekspektasi Pendapatan: {{ ekspektasiPendapatan }}</span>
       </div>
-
-      <div>
-        <p class="text-red-600">Status : Tidak Memenuhi Ekspektasi Pendapatan</p>
+      <div class="detail-item status" :class="statusClass">
+        <span>Status: {{ statusMessage }}</span>
       </div>
     </div>
   </div>
+
 </template>
 
-<script>
-import Navigator from '@/components/Navigator.vue'; // Import the Navigator component
+<script setup>
+import Navigator from '@/components/Navigator.vue';
+import { ref, computed } from 'vue';
 
-export default {
-  name: 'App',
-  components: {
-    Navigator, // Register the Navigator component
-  },
-  // You can add data or methods here for the main app
-};
+const periode = ref('20-3-2025');
+const pendapatanPeriode = ref(11000);
+const ekspektasiPendapatan = ref(100000);
+
+const statusMessage = computed(() => {
+  return pendapatanPeriode.value >= ekspektasiPendapatan.value
+    ? 'Memenuhi Ekspektasi Pendapatan'
+    : 'Tidak Memenuhi Ekspektasi Pendapatan';
+});
+
+const statusClass = computed(() => {
+  return pendapatanPeriode.value >= ekspektasiPendapatan.value
+    ? 'status-met' // Class if expectation is met
+    : 'status-not-met'; // Class if expectation is not met
+});
 </script>
 
-<style>
-/* Add global styles here if needed */
-/* Ensure Tailwind CSS is included in your project for these classes to work */
-/* For example, in your main.js or equivalent: */
-/* import './assets/css/tailwind.css'; */
+<style scoped>
 
-/* Basic styling for the body to remove default margin */
-body {
-  margin: 0;
-  font-family: 'Inter', sans-serif; /* Using Inter font as per instructions */
+.financial-details {
+  padding: 20px;
+  font-family: sans-serif;
 }
+
+.detail-item {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  color: #333;
+}
+
+.icon {
+  margin-right: 10px;
+  font-size: 1.2em;
+}
+
+.status {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.status-not-met {
+  color: #d9534f;
+}
+
+.status-met {
+  color: #5cb85c;
+}
+
 </style>
