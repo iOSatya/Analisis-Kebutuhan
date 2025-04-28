@@ -31,7 +31,7 @@
   import { ref } from 'vue';
 
   const registerForm = ref({
-    username: "",
+    name: "",
     email: "",
     password: "",
     password_confirmation: ""

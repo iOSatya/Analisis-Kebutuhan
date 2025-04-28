@@ -3,9 +3,9 @@
     <h1 class="text-2xl font-semibold mb-6">LOGIN</h1>
     <form class="flex flex-col w-full max-w-xs">
       <label for="username" class="mb-1 text-sm font-medium text-gray-700">
-        Username
+        E-Mail
       </label>
-      <input id="username" type="text" v-model="loginForm.username" placeholder="" class="mb-4 px-4 py-2 border border-gray-300 rounded-full shadow-inner bg-gray-200 focus:outline-none focus:ring-2 focus:ring-green-300">
+      <input id="username" type="text" v-model="loginForm.email" placeholder="" class="mb-4 px-4 py-2 border border-gray-300 rounded-full shadow-inner bg-gray-200 focus:outline-none focus:ring-2 focus:ring-green-300">
 
       <label for="password" class="mb-1 text-sm font-medium text-gray-700">
         Password
@@ -28,7 +28,7 @@
   import { ref } from 'vue';
 
   const loginForm = ref({
-    username: "",
+    email: "",
     password: ""
   });
 
