@@ -1,6 +1,8 @@
 <template>
   <div class="flex h-screen items-center p-20">
-    <Navigator />
+    <div>
+      <Navigator />
+    </div>
     <div class="financial-details w-full m-12">
       <div class="detail-item">
         <span class="icon">📅</span>
