@@ -4,6 +4,7 @@ import LoginView from '@/views/LoginView.vue';
 import RegisterView from "@/views/RegisterView.vue";
 import KeuanganView from "@/views/KeuanganView.vue";
 import BarangView from "@/views/BarangView.vue";
+import UtangView from "@/views/UtangView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,6 +17,9 @@ const router = createRouter({
     ] },
     { path: "/barang", children: [
       { path: "", name: "barang", component: BarangView }
+    ] },
+    { path: "/utang", children: [
+      { path: "", name: "utang", component: UtangView }
     ] }
   ],
 })
