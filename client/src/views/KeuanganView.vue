@@ -19,56 +19,58 @@
 </template>
 
 <script setup>
-import Navigator from '@/components/Navigator.vue';
-import { ref, computed } from 'vue';
 
-const periode = ref('20-3-2025');
-const pendapatanPeriode = ref(11000);
-const ekspektasiPendapatan = ref(100000);
+  import Navigator from '@/components/Navigator.vue';
+  import { ref, computed } from 'vue';
 
-const statusMessage = computed(() => {
-  return pendapatanPeriode.value >= ekspektasiPendapatan.value
-    ? 'Memenuhi Ekspektasi Pendapatan'
-    : 'Tidak Memenuhi Ekspektasi Pendapatan';
-});
+  const periode = ref('20-3-2025');
+  const pendapatanPeriode = ref(11000);
+  const ekspektasiPendapatan = ref(100000);
 
-const statusClass = computed(() => {
-  return pendapatanPeriode.value >= ekspektasiPendapatan.value
-    ? 'status-met' // Class if expectation is met
-    : 'status-not-met'; // Class if expectation is not met
-});
+  const statusMessage = computed(() => {
+    return pendapatanPeriode.value >= ekspektasiPendapatan.value
+      ? 'Memenuhi Ekspektasi Pendapatan'
+      : 'Tidak Memenuhi Ekspektasi Pendapatan';
+  });
+
+  const statusClass = computed(() => {
+    return pendapatanPeriode.value >= ekspektasiPendapatan.value
+      ? 'status-met'
+      : 'status-not-met';
+  });
+
 </script>
 
 <style scoped>
 
-.financial-details {
-  padding: 20px;
-  font-family: sans-serif;
-}
-
-.detail-item {
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  color: #333;
-}
-
-.icon {
-  margin-right: 10px;
-  font-size: 1.2em;
-}
-
-.status {
-  margin-top: 20px;
-  font-weight: bold;
-}
-
-.status-not-met {
-  color: #d9534f;
-}
-
-.status-met {
-  color: #5cb85c;
-}
+  .financial-details {
+    padding: 20px;
+    font-family: sans-serif;
+  }
+  
+  .detail-item {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    color: #333;
+  }
+  
+  .icon {
+    margin-right: 10px;
+    font-size: 1.2em;
+  }
+  
+  .status {
+    margin-top: 20px;
+    font-weight: bold;
+  }
+  
+  .status-not-met {
+    color: #d9534f;
+  }
+  
+  .status-met {
+    color: #5cb85c;
+  }
 
 </style>
