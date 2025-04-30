@@ -7,53 +7,52 @@ use Illuminate\Http\Request;
 
 class KeuanganController extends Controller
 {
-    // Update ekspektasi by current date (now)
-    public function updateCurrentEkspektasiPendapatan(Request $request)
+    public function getAll()
     {
-        $request->validate([
-            'ekspektasi' => 'required|integer',
-        ]);
+        return Keuangan::all();
+    }
 
-        // Get current date
-        $today = now()->toDateString();
-
-        $keuangan = Keuangan::where('periode', $today)->first();
+    public function getAndCreate($date)
+    {
+        $keuangan = Keuangan::where('periode', $date)->first();
 
         if (!$keuangan) {
-            return response()->json(['message' => 'Data for today not found'], 404);
+            $keuangan = Keuangan::create([
+                'periode' => $date,
+                'ekspektasi' => 0,
+                'pendapatan' => 0, 
+                'status' => 1       
+            ]);
         }
-
-        // Update ekspektasi
-        $keuangan->ekspektasi = $request->ekspektasi;
-        // Recalculate status
-        $keuangan->status = $keuangan->pendapatan >= $keuangan->ekspektasi;
-        $keuangan->save();
-
+    
         return response()->json($keuangan);
     }
 
-    // Update pendapatan by current date (now)
-    public function updateCurrentPendapatan(Request $request)
+    public function update(Request $request, $date)
     {
         $request->validate([
-            'pendapatan' => 'required|integer',
+            'ekspektasi' => 'nullable|integer',
+            'pendapatan' => 'nullable|integer',
         ]);
-
-        // Get current date
-        $today = now()->toDateString();
-
-        $keuangan = Keuangan::where('periode', $today)->first();
-
+    
+        $keuangan = Keuangan::where('periode', $date)->first();
+    
         if (!$keuangan) {
-            return response()->json(['message' => 'Data for today not found'], 404);
+            return response()->json(['message' => 'Data not found for the given date'], 404);
         }
-
-        // Update pendapatan
-        $keuangan->pendapatan = $request->pendapatan;
-        // Recalculate status
+    
+        if (!is_null($request->ekspektasi)) {
+            $keuangan->ekspektasi = $request->ekspektasi;
+        }
+    
+        if (!is_null($request->pendapatan)) {
+            $keuangan->pendapatan = $request->pendapatan;
+        }
+    
+        // Always recalculate status
         $keuangan->status = $keuangan->pendapatan >= $keuangan->ekspektasi;
         $keuangan->save();
-
+    
         return response()->json($keuangan);
     }
 }
