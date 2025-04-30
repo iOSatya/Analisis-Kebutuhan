@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
@@ -8,20 +8,15 @@ use Illuminate\Http\Request;
 
 class BarangController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    // GET /api/barangs
-    public function index()
+
+    // GET /api/barang
+    public function getAll()
     {
         return Barang::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    // POST /api/barangs
-    public function store(Request $request)
+    // POST /api/barang
+    public function add(Request $request)
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
@@ -36,19 +31,13 @@ class BarangController extends Controller
         return response()->json($barang, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    // GET /api/barangs/{id}
-    public function show($id)
+    // GET /api/barang/{id}
+    public function get($id)
     {
         return Barang::findOrFail($id);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    // PUT /api/barangs/{id}
+    // PUT /api/barang/{id}
     public function update(Request $request, $id)
     {
         $barang = Barang::findOrFail($id);
@@ -66,15 +55,12 @@ class BarangController extends Controller
         return response()->json($barang);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     // DELETE /api/barangs/{id}
-    public function destroy($id)
+    public function delete($id)
     {
         $barang = Barang::findOrFail($id);
         $barang->delete();
 
-        return response()->json(null, 204);
+        return response()->json($barang);
     }
 }
