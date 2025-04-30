@@ -29,7 +29,8 @@ class BarangController extends Controller
             'terjual' => 'nullable|integer',
             'harga' => 'required|numeric',
         ]);
-
+        // set terjual to 0 if in body not set
+        $validated['terjual'] = $validated['terjual'] ?? 0;
         $barang = Barang::create($validated);
 
         return response()->json($barang, 201);
@@ -52,11 +53,12 @@ class BarangController extends Controller
     {
         $barang = Barang::findOrFail($id);
 
+        // the body req can be all the 3, or only just one
+        // example: {"nama": "Barang A", "stock": 10, "harga": 10000} or can be only {"stock": 10}
         $validated = $request->validate([
-            'nama' => 'sometimes|required|string|max:255',
-            'stock' => 'sometimes|required|integer',
-            'terjual' => 'nullable|integer',
-            'harga' => 'sometimes|required|numeric',
+            'nama' => 'sometimes|string|max:255',
+            'stock' => 'sometimes|integer',
+            'harga' => 'sometimes|numeric',
         ]);
 
         $barang->update($validated);
