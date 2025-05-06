@@ -26,7 +26,8 @@
 <script setup>
 
   import { ref } from 'vue';
-  import { useAuthStore } from '@/stores/auth.js';
+  import { useAuthStore } from '@/stores/auth';
+import router from '@/router';
 
   const AuthStore = useAuthStore();
 
@@ -46,6 +47,7 @@
       const responseData = await response.json();
       AuthStore.addToken(responseData["token"]);
       alert(responseData["message"]);
+      router.push({name: "barang"});
       
     } catch (error) {
       console.log(error);
