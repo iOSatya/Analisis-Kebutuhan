@@ -29,12 +29,7 @@
             <td :class="getStatusClass(debt.status)">{{ debt.status }}</td>
             <td class="actions">
                 <button @click="deleteDebt(debt.id)" class="action-button delete-button">🗑️</button>
-                <button
-                  v-if="debt.status === 'Belum Lunas'"
-                  @click="markAsPaid(debt.id)"
-                  class="action-button paid-button"
-                  title="Tandai Lunas"
-                >
+                <button v-if="debt.status === 'Belum Lunas'" @click="markAsPaid(debt.id)" class="action-button paid-button" title="Tandai Lunas">
                   ✔️
                 </button>
                 <span v-else class="action-placeholder">✅</span>
@@ -52,167 +47,171 @@
 </template>
 
 <script setup>
-import Navigator from '@/components/Navigator.vue';
-import { ref } from 'vue';
 
-const debts = ref([
-  { id: 1, tanggalBerhutang: '20-3-2025', tanggalLunas: '20-3-2025', nama: 'Bedil', namaBarang: 'Pasta Gigi', jumlahBarang: 2, nominalUtang: 8000, status: 'Lunas' },
-  { id: 2, tanggalBerhutang: '20-3-2025', tanggalLunas: '20-3-2025', nama: 'Wisang', namaBarang: 'Aqua', jumlahBarang: 2, nominalUtang: 3000, status: 'Lunas' },
-  { id: 3, tanggalBerhutang: '19-3-2025', tanggalLunas: null, nama: 'Kalpin', namaBarang: 'Pasta Gigi', jumlahBarang: 1, nominalUtang: 4000, status: 'Belum Lunas' },
-]);
+  import Navigator from '@/components/Navigator.vue';
+  import { ref } from 'vue';
 
-const formatCurrency = (value) => {
-  return value.toLocaleString('id-ID');
-};
+  const debts = ref([
+    { id: 1, tanggalBerhutang: '20-3-2025', tanggalLunas: '20-3-2025', nama: 'Bedil', namaBarang: 'Pasta Gigi', jumlahBarang: 2, nominalUtang: 8000, status: 'Lunas' },
+    { id: 2, tanggalBerhutang: '20-3-2025', tanggalLunas: '20-3-2025', nama: 'Wisang', namaBarang: 'Aqua', jumlahBarang: 2, nominalUtang: 3000, status: 'Lunas' },
+    { id: 3, tanggalBerhutang: '19-3-2025', tanggalLunas: null, nama: 'Kalpin', namaBarang: 'Pasta Gigi', jumlahBarang: 1, nominalUtang: 4000, status: 'Belum Lunas' },
+  ]);
 
-const getStatusClass = (status) => {
-  return status === 'Lunas' ? 'status-lunas' : 'status-belum-lunas';
-};
+  const formatCurrency = (value) => {
+    return value.toLocaleString('id-ID');
+  };
 
-const addDebt = () => {
-  console.log('Tambah Data Utang clicked');
-    const newDebtId = debts.value.length > 0 ? Math.max(...debts.value.map(d => d.id)) + 1 : 1;
-    const today = new Date().toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-');
-    debts.value.push({
-      id: newDebtId,
-      tanggalBerhutang: today,
-      tanggalLunas: null,
-      nama: 'Orang Baru',
-      namaBarang: 'Barang X',
-      jumlahBarang: 1,
-      nominalUtang: 5000,
-      status: 'Belum Lunas'
-    });
-};
+  const getStatusClass = (status) => {
+    return status === 'Lunas' ? 'status-lunas' : 'status-belum-lunas';
+  };
 
-const deleteDebt = (id) => {
-  console.log(`Delete debt with id: ${id}`);
-  debts.value = debts.value.filter(debt => debt.id !== id);
-};
+  const addDebt = () => {
+    console.log('Tambah Data Utang clicked');
+      const newDebtId = debts.value.length > 0 ? Math.max(...debts.value.map(d => d.id)) + 1 : 1;
+      const today = new Date().toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-');
+      debts.value.push({
+        id: newDebtId,
+        tanggalBerhutang: today,
+        tanggalLunas: null,
+        nama: 'Orang Baru',
+        namaBarang: 'Barang X',
+        jumlahBarang: 1,
+        nominalUtang: 5000,
+        status: 'Belum Lunas'
+      });
+  };
 
-const markAsPaid = (id) => {
-  console.log(`Mark debt as paid with id: ${id}`);
-  const debtIndex = debts.value.findIndex(debt => debt.id === id);
-  if (debtIndex !== -1) {
-    debts.value[debtIndex].status = 'Lunas';
-    debts.value[debtIndex].tanggalLunas = new Date().toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-');
-  }
-};
+  const deleteDebt = (id) => {
+    console.log(`Delete debt with id: ${id}`);
+    debts.value = debts.value.filter(debt => debt.id !== id);
+  };
+
+  const markAsPaid = (id) => {
+    console.log(`Mark debt as paid with id: ${id}`);
+    const debtIndex = debts.value.findIndex(debt => debt.id === id);
+    if (debtIndex !== -1) {
+      debts.value[debtIndex].status = 'Lunas';
+      debts.value[debtIndex].tanggalLunas = new Date().toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-');
+    }
+  };
+
 </script>
 
 <style scoped>
-.debts-table-container {
-  padding: 20px;
-  font-family: sans-serif;
-}
 
-.debts-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  overflow: hidden;
-}
+  .debts-table-container {
+    padding: 20px;
+    font-family: sans-serif;
+  }
 
-th, td {
-  border: 1px solid #ddd;
-  padding: 12px 15px;
-  text-align: left;
-  vertical-align: middle;
-  white-space: nowrap;
-}
+  .debts-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
 
-th {
-  background-color: #f8f8f8;
-  font-weight: bold;
-  color: #333;
-}
+  th, td {
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+    text-align: left;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
 
-tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
+  th {
+    background-color: #f8f8f8;
+    font-weight: bold;
+    color: #333;
+  }
 
-tbody tr:hover {
-  background-color: #f1f1f1;
-}
+  tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
 
-.status-lunas {
-  color: #28a745;
-  font-weight: bold;
-}
+  tbody tr:hover {
+    background-color: #f1f1f1;
+  }
 
-.status-belum-lunas {
-  color: #dc3545;
-  font-weight: bold;
-}
+  .status-lunas {
+    color: #28a745;
+    font-weight: bold;
+  }
 
-.actions {
-  text-align: center;
-}
+  .status-belum-lunas {
+    color: #dc3545;
+    font-weight: bold;
+  }
 
-.action-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.1em;
-  padding: 5px;
-  margin: 0 4px;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
-  vertical-align: middle;
-}
+  .actions {
+    text-align: center;
+  }
 
-.action-button:hover {
-    background-color: #eee;
-}
-
-.delete-button {
-  color: #dc3545;
-}
-
-.paid-button {
-  color: #28a745;
-}
-
-.action-placeholder {
-    display: inline-block;
+  .action-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1em;
     padding: 5px;
     margin: 0 4px;
-    font-size: 1.1em;
-    color: #bbb;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
     vertical-align: middle;
-}
+  }
 
-.add-button {
-  display: inline-flex;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #f0f0f0;
-  color: #333;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-}
+  .action-button:hover {
+      background-color: #eee;
+  }
 
-.add-button:hover {
-  background-color: #e0e0e0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-}
+  .delete-button {
+    color: #dc3545;
+  }
 
-.add-icon {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  line-height: 18px;
-  text-align: center;
-  border: 1px solid #aaa;
-  border-radius: 50%;
-  margin-right: 8px;
-  font-weight: bold;
-  color: #555;
-}
+  .paid-button {
+    color: #28a745;
+  }
+
+  .action-placeholder {
+      display: inline-block;
+      padding: 5px;
+      margin: 0 4px;
+      font-size: 1.1em;
+      color: #bbb;
+      vertical-align: middle;
+  }
+
+  .add-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+
+  .add-button:hover {
+    background-color: #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  }
+
+  .add-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 18px;
+    text-align: center;
+    border: 1px solid #aaa;
+    border-radius: 50%;
+    margin-right: 8px;
+    font-weight: bold;
+    color: #555;
+  }
+
 </style>
