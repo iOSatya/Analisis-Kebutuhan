@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 py-10">
     <h1 class="text-2xl font-semibold mb-6">REGISTER</h1>
-    <form class="flex flex-col w-full max-w-xs">
+    <form @submit.prevent="sendRegisterForm" class="flex flex-col w-full max-w-xs">
 
       <label for="name" class="mb-1 text-sm font-medium text-gray-700">Name</label>
       <input id="name" type="text" v-model="registerForm.name" placeholder="" class="mb-4 px-4 py-2 border border-gray-300 rounded-full shadow-inner bg-gray-200 focus:outline-none focus:ring-2 focus:ring-green-300">
@@ -37,5 +37,21 @@
     password: "",
     password_confirmation: ""
   });
+
+  const sendRegisterForm = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/register", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(registerForm.value)
+      });
+
+      const responseData = await response.json();
+      alert(responseData["message"]);
+    } catch (error) {
+      console.log(error);
+      alert("Kesalahan Sistem");
+    }
+  }
 
 </script>

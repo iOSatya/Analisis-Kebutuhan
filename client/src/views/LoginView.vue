@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
     <h1 class="text-2xl font-semibold mb-6">LOGIN</h1>
-    <form class="flex flex-col w-full max-w-xs">
+    <form @submit.prevent="sendLoginForm" class="flex flex-col w-full max-w-xs">
       <label for="username" class="mb-1 text-sm font-medium text-gray-700">
         E-Mail
       </label>
@@ -26,10 +26,31 @@
 <script setup>
 
   import { ref } from 'vue';
+  import { useAuthStore } from '@/stores/auth.js';
+
+  const AuthStore = useAuthStore();
 
   const loginForm = ref({
     email: "",
     password: ""
   });
+
+  const sendLoginForm = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(loginForm.value)
+      });
+
+      const responseData = await response.json();
+      AuthStore.addToken(responseData["token"]);
+      alert(responseData["message"]);
+      
+    } catch (error) {
+      console.log(error);
+      alert("Kesalahan Sistem");
+    }
+  }
 
 </script>
