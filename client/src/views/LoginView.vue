@@ -45,9 +45,12 @@ import router from '@/router';
       });
 
       const responseData = await response.json();
+      console.log(responseData);
       AuthStore.addToken(responseData["token"]);
       alert(responseData["message"]);
-      router.push({name: "barang"});
+      if (response.ok) {
+        router.push({name: "barang"});
+      }
       
     } catch (error) {
       console.log(error);
