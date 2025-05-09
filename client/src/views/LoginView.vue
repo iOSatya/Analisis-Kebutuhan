@@ -45,7 +45,6 @@ import router from '@/router';
       });
 
       const responseData = await response.json();
-      console.log(responseData);
       AuthStore.addToken(responseData["token"]);
       alert(responseData["message"]);
       if (response.ok) {
