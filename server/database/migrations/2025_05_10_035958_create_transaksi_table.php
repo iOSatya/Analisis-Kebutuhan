@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -13,6 +14,12 @@ return new class extends Migration
     {
         Schema::create('transaksi', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('barang_id');
+            $table->foreign('barang_id')->references('id')->on('barang')->onDelete('cascade');
+            $table->string('nama')->nullable(false);
+            $table->double('harga')->nullable(false);
+            $table->integer('jumlah_barang')->nullable(false);
+            $table->double('total')->nullable(false);
             $table->timestamps();
         });
     }

@@ -25,7 +25,6 @@ return new class extends Migration
             $table->double('pendapatan')->default(0)->nullable(false);
             $table->double('laba')->default(0)->nullable(false);
             $table->string('status')->default('rugi')->nullable(false);
-
             $table->timestamps();
         });
 

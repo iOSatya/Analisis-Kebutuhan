@@ -16,7 +16,6 @@ class BarangController extends Controller
 
     public function get($id)
     {
-        echo Barang::findOrFail($id)['pendapatan'];
         return Barang::findOrFail($id);
     }
 
@@ -39,37 +38,14 @@ class BarangController extends Controller
 
         $validated = $request->validate([
             'nama' => 'sometimes|string',
-            'harga_jual' => 'sometimes|numeric',
-            'pendapatan' => 'sometimes|numeric',
+            'harga_jual' => 'sometimes|numeric'
         ]);
 
-        $fields = array_keys($validated);
+        $barang->update($validated);
 
-        if ($fields === ['pendapatan']) {
-            $barang->pendapatan += $validated['pendapatan'];
-            $barang->save();
-            $barang->refresh();
-            return response()->json($barang);
-        }
-
-        if (in_array('pendapatan', $fields)) {
-            return response()->json([
-                'message' => 'You can only update pendapatan alone, not with other fields.'
-            ], 422);
-        }
-
-        if (isset($validated['nama'])) {
-            $barang->nama = $validated['nama'];
-        }
-
-        if (isset($validated['harga_jual'])) {
-            $barang->harga_jual = $validated['harga_jual'];
-        }
-
-        $barang->save();
-        $barang->refresh();
-        return response()->json($barang);
+        return response()->json($barang->fresh());
     }
+
 
     public function delete($id)
     {
