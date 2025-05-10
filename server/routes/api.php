@@ -6,6 +6,8 @@ use App\Http\Controllers\KeuanganController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
+
 // auth
 Route::post("/register", [AuthController::class, "register"]);
 Route::post("/login", [AuthController::class, "login"]);
@@ -27,9 +29,10 @@ Route::put("/barang/{id}", [BarangController::class, "update"]);
 Route::delete("/barang/{id}", [BarangController::class, "delete"]);
 
 
+
 // keuangan | date format: YYYY-MM-DD, example: 2025-05-01
-Route::get("/keuangan", [KeuanganController::class, "getAll"]);
-Route::get("/keuangan/{date}", [KeuanganController::class, "getAndCreate"]);
-// body example for PUT keuangan: {"pendapatan": 10000, "ekspektasi": 20000} 
-// or can be partial update example: {"pendapatan": 10000} or {"ekspektasi": 20000}
-Route::put("/keuangan/{date}", [KeuanganController::class, "update"]); 
+// Route::get("/keuangan", [KeuanganController::class, "getAll"]);
+// Route::get("/keuangan/{date}", [KeuanganController::class, "getAndCreate"]);
+// // body example for PUT keuangan: {"pendapatan": 10000, "ekspektasi": 20000} 
+// // or can be partial update example: {"pendapatan": 10000} or {"ekspektasi": 20000}
+// Route::put("/keuangan/{date}", [KeuanganController::class, "update"]); 

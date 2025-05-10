@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('barangs', function (Blueprint $table) {
+        Schema::create('barang', function (Blueprint $table) {
             $table->id();
             $table->string('nama')->default('')->nullable(false);
             $table->double('harga_beli')->default(0)->nullable(false);
@@ -30,8 +30,8 @@ return new class extends Migration
         });
 
         DB::unprepared("
-            CREATE TRIGGER before_insert_barangs
-            BEFORE INSERT ON barangs
+            CREATE TRIGGER before_insert_barang
+            BEFORE INSERT ON barang
             FOR EACH ROW
             BEGIN
                 SET NEW.sisa_stock = NEW.stock - NEW.terjual;
@@ -51,8 +51,8 @@ return new class extends Migration
         ");
 
         DB::unprepared("
-            CREATE TRIGGER before_update_barangs
-            BEFORE UPDATE ON barangs
+            CREATE TRIGGER before_update_barang
+            BEFORE UPDATE ON barang
             FOR EACH ROW
             BEGIN
                 SET NEW.sisa_stock = NEW.stock - NEW.terjual;    
@@ -76,8 +76,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::unprepared('DROP TRIGGER IF EXISTS before_insert_barangs;');
-        DB::unprepared('DROP TRIGGER IF EXISTS before_update_barangs;');
-        Schema::dropIfExists('barangs');
+        DB::unprepared('DROP TRIGGER IF EXISTS before_insert_barang;');
+        DB::unprepared('DROP TRIGGER IF EXISTS before_update_barang;');
+        Schema::dropIfExists('barang');
     }
 };
