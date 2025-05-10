@@ -8,15 +8,15 @@ use Illuminate\Http\Request;
 
 class BarangController extends Controller
 {
-
-    public function getAll()
+    public function get($id = null)
     {
-        return Barang::all();
-    }
-
-    public function get($id)
-    {
-        return Barang::findOrFail($id);
+        if ($id === null) {
+            return Barang::where('visibility', true)->get();
+        } else {
+            return Barang::where('id', $id)
+                        ->where('visibility', true)
+                        ->firstOrFail();
+        }
     }
 
     public function add(Request $request)
@@ -50,7 +50,9 @@ class BarangController extends Controller
     public function delete($id)
     {
         $barang = Barang::findOrFail($id);
-        $barang->delete();
+        $barang->visibility = false;
+        $barang->save();
+        $barang->refresh();
         return response()->json($barang);
     }
 }

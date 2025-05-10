@@ -19,6 +19,7 @@ class Barang extends Model
         'ekspektasi_pendapatan',
         'pendapatan',
         'laba',
-        'status'
+        'status',
+        'visibility'
     ];
 }
