@@ -29,21 +29,19 @@ class BarangController extends Controller
             'modal' => 'required|numeric',
         ]);
         $barang = Barang::create($validated);
-        return response()->json($barang, 200);
+        return response()->json(['message' => 'barang berhasil ditambahkan']);
     }
 
     public function update(Request $request, $id)
     {
         $barang = Barang::findOrFail($id);
-
         $validated = $request->validate([
             'nama' => 'sometimes|string',
             'harga_jual' => 'sometimes|numeric'
         ]);
-
         $barang->update($validated);
-
-        return response()->json($barang->fresh());
+        $barang->save();
+        return response()->json(['message' => 'barang berhasil diupdate']);
     }
 
 
@@ -53,6 +51,6 @@ class BarangController extends Controller
         $barang->visibility = false;
         $barang->save();
         $barang->refresh();
-        return response()->json($barang);
+        return response()->json(['message' => 'barang berhasil dihapus']);
     }
 }

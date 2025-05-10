@@ -14,8 +14,7 @@ return new class extends Migration
     {
         Schema::create('transaksi', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('barang_id');
-            $table->foreign('barang_id')->references('id')->on('barang')->onDelete('cascade');
+            $table->integer('barang_id')->nullable(false);
             $table->string('nama')->nullable(false);
             $table->double('harga')->nullable(false);
             $table->integer('jumlah_barang')->nullable(false);

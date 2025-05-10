@@ -4,6 +4,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\UtangController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,8 +27,20 @@ Route::put("/barang/{id}", [BarangController::class, "update"]);
 Route::delete("/barang/{id}", [BarangController::class, "delete"]);
 
 
+
+// utang
+Route::get("/utang", [UtangController::class, "get"]);
+// body example for POST utang: { "tanggal_berhutang": "2025-05-11", "nama": "aqua", "barang_id": 1, "nama_barang": "aqua", "jumlah_barang": 2, "nominal_utang": 6000 }
+Route::post("/utang", [UtangController::class, "add"]);
+// body example for PUT utang: { "tanggal_lunas": "2025-05-11" }
+Route::put("/utang/{id}", [UtangController::class, "update"]);
+Route::delete("/utang/{id}", [UtangController::class, "delete"]);
+
+
+
 // transaksi
-Route::get("/transaksi", [TransaksiController::class, "getAll"]);
-Route::get("/transaksi/{transaksi_uid}", [TransaksiController::class, "get"]);
+Route::get("/transaksi", [TransaksiController::class, "get"]);
+// tanggal format (YYYY-MM-DD) example: 2025-1-20
+Route::get("/transaksi/{tanggal}", [TransaksiController::class, "get"]);
 // body example for POST transaksi (add): {"barang_id": [1, 2], "nama": ["aqua", "mie"], "harga": [3000, 3500], "jumlah_barang": [2, 3], "total": [6000, 7000] }
 Route::post("/transaksi", [TransaksiController::class, "add"]);

@@ -45,8 +45,6 @@ return new class extends Migration
                 ELSE
                     SET NEW.status = 'untung';
                 END IF;
-
-                SET NEW.created_at = NOW();
             END;
         ");
 
@@ -65,8 +63,6 @@ return new class extends Migration
                 ELSE
                     SET NEW.status = 'untung';
                 END IF;
-
-                SET NEW.updated_at = NOW();
             END;
         ");
     }

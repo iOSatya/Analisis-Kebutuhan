@@ -8,14 +8,13 @@ use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
 {
-    public function getAll()
+    public function get($tanggal = null)
     {
-        return Transaksi::all();
-    }
-
-    public function get($transaksi_uid)
-    {
-        return Transaksi::findOrFail($transaksi_uid);
+        if ($tanggal == null) {
+            return Transaksi::all();
+        } else {
+            return Transaksi::whereDate('created_at', $tanggal)->get();
+        }
     }
 
     public function add(Request $request)
@@ -41,11 +40,10 @@ class TransaksiController extends Controller
 
             $barang = Barang::findOrFail($validated['barang_id'][$i]);
             $barang->pendapatan += $validated['total'][$i];
+            $barang->terjual += $validated['jumlah_barang'][$i];
             $barang->save();
         }
 
-
-
-        return response()->json(['message' => 'Transaksi berhasil disimpan']);
+        return response()->json(['message' => 'transaksi berhasil disimpan']);
     }
 }
