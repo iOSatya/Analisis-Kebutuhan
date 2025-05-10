@@ -14,22 +14,23 @@ class BarangController extends Controller
         return Barang::all();
     }
 
+    public function get($id)
+    {
+        echo Barang::findOrFail($id)['pendapatan'];
+        return Barang::findOrFail($id);
+    }
+
     public function add(Request $request)
     {
         $validated = $request->validate([
-            'nama' => 'required|string|max:255',
+            'nama' => 'required|string|',
+            'harga_beli' => 'required|numeric',
+            'harga_jual' => 'required|numeric',
             'stock' => 'required|integer',
-            'harga' => 'required|numeric',
+            'modal' => 'required|numeric',
         ]);
         $barang = Barang::create($validated);
-
-        return response()->json($barang, 201);
-    }
-
-
-    public function get($id)
-    {
-        return Barang::findOrFail($id);
+        return response()->json($barang, 200);
     }
 
     public function update(Request $request, $id)
@@ -37,14 +38,36 @@ class BarangController extends Controller
         $barang = Barang::findOrFail($id);
 
         $validated = $request->validate([
-            'nama' => 'sometimes|string|max:255',
-            'stock' => 'sometimes|integer',
-            'terjual' => 'sometimes|integer',
-            'harga' => 'sometimes|numeric',
+            'nama' => 'sometimes|string',
+            'harga_jual' => 'sometimes|numeric',
+            'pendapatan' => 'sometimes|numeric',
         ]);
 
-        $barang->update($validated);
+        $fields = array_keys($validated);
 
+        if ($fields === ['pendapatan']) {
+            $barang->pendapatan += $validated['pendapatan'];
+            $barang->save();
+            $barang->refresh();
+            return response()->json($barang);
+        }
+
+        if (in_array('pendapatan', $fields)) {
+            return response()->json([
+                'message' => 'You can only update pendapatan alone, not with other fields.'
+            ], 422);
+        }
+
+        if (isset($validated['nama'])) {
+            $barang->nama = $validated['nama'];
+        }
+
+        if (isset($validated['harga_jual'])) {
+            $barang->harga_jual = $validated['harga_jual'];
+        }
+
+        $barang->save();
+        $barang->refresh();
         return response()->json($barang);
     }
 
@@ -52,7 +75,6 @@ class BarangController extends Controller
     {
         $barang = Barang::findOrFail($id);
         $barang->delete();
-
         return response()->json($barang);
     }
 }

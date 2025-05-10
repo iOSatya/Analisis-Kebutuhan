@@ -8,8 +8,15 @@ class Barang extends Model
 {
     protected $fillable = [
         'nama',
+        'harga_beli',
+        'harga_jual',
         'stock',
         'terjual',
-        'harga',
+        'sisa_stock',
+        'modal',
+        'ekspektasi_pendapatan',
+        'pendapatan',
+        'laba',
+        'status'
     ];
 }

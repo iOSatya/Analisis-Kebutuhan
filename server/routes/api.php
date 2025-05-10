@@ -17,14 +17,14 @@ Route::post("/logout", [AuthController::class, "logout"])->middleware("auth:sanc
 Route::get("/barang", [BarangController::class, "getAll"]);
 Route::get("/barang/{id}", [BarangController::class, "get"]);
 // body example for POST barang (add): 
-// { "nama": "aqua", "stock": 30, "harga": 4000 }
+// { "nama": "aqua", "harga_beli": 2500, "harga_jual": 3000, "stock": 30, "modal": 75000 }
 Route::post("/barang", [BarangController::class, "add"]);
 // body example for PUT barang (update): 
-// { "nama": "aqua mineral", "stock": 30, "terjual": 0, "harga": 4000 }
-// or can be partial update example: { "stock": 30 } or { "terjual": 0 }
+// { "nama": "aqua mineral", "harga_jual": 3500 }
+// or can be partial update example: { "nama": "aqua mineral" } or { "harga_jual": 3500 }
+// other option is to increment pendapatan: { "pendapatan": 1000 } will increment the pendapatan by 1000
 Route::put("/barang/{id}", [BarangController::class, "update"]);
 Route::delete("/barang/{id}", [BarangController::class, "delete"]);
-
 
 
 // keuangan | date format: YYYY-MM-DD, example: 2025-05-01
