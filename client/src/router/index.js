@@ -56,6 +56,7 @@ import KeuanganView from "@/views/KeuanganView.vue";
 import BarangView from "@/views/BarangView.vue";
 import UtangView from "@/views/UtangView.vue";
 import TransaksiView from '@/views/TransaksiView.vue';
+import KasirView from '@/views/KasirView.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -91,10 +92,15 @@ const router = createRouter({
       component: UtangView
     },
     {
+      path: '/kasir',
+      name: 'kasir',
+      component: KasirView
+    },
+    {
       path: "/transaksi",
       name: "transaksi",
       component: TransaksiView
-    }
+    },
   ],
 })
 

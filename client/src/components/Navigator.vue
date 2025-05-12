@@ -70,9 +70,9 @@
         :class="navClass('utang')">
         UTANG
       </RouterLink>
-      <RouterLink 
-        :to="{ name: 'home' }" 
-        :class="navClass('home')">
+      <RouterLink
+        :to="{ name: 'kasir' }"
+        :class="navClass('kasir')">
         KASIR
       </RouterLink>
       <RouterLink 
@@ -108,6 +108,7 @@
         }
       });
     } catch (error) {
+      // console.error(error);
       alert("Kesalahan Sistem");
     } finally {
       localStorage.removeItem("token");

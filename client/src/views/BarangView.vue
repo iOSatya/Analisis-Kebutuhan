@@ -172,23 +172,23 @@
 
 <template>
 
-  <div class="flex h-screen items-center p-20 mt-20">
-    <div class="items-table-container w-full m-12">
-      <table class="items-table">
+    <div class="table-container">
+      <table class="">
         <thead>
           <tr>
             <th>No</th>
             <th>Nama</th>
-            <th>Stock</th>
+            <th>Sisa Stock</th>
             <th>Terjual</th>
             <th>Harga</th>
-            <th>Aksi</th> </tr>
+            <th>Aksi</th> 
+          </tr>
         </thead>
         <tbody>
           <tr v-for="(item, index) in barang" :key="item.id">
             <td>{{ index + 1 }}</td>
             <td>{{ item.nama }}</td>
-            <td>{{ item.stock }}</td>
+            <td>{{ item.sisa_stock }}</td>
             <td>{{ item.terjual }}</td>
             <td>{{ formatCurrency(item.harga_beli) }}</td>
             <td class="actions">
@@ -198,14 +198,16 @@
           </tr>
         </tbody>
       </table>
+    </div>
 
+    <div class="add-button-container">
       <button @click="addItem" class="add-button">
-        <span class="add-icon">+</span> Tambah Barang
+        <span class="">➕</span> Tambah Barang
       </button>
     </div>
-  </div>
-  
+
 </template>
+
 
 <script setup>
 
@@ -228,11 +230,11 @@
   };
 
   const addItem = () => {
-    console.log('Tambah Barang clicked');
+    // console.log('Tambah Barang clicked');
   };
 
   const editItem = (id) => {
-    console.log(`Edit item with id: ${id}`);
+    // console.log(`Edit item with id: ${id}`);
   };
 
   const deleteItem = async (id) => {
@@ -258,18 +260,17 @@
 
 <style scoped>
 
-  .items-table-container {
-    padding: 20px;
+  .table-container {
+    border: 1px solid #ddd;
     font-family: sans-serif;
+    margin: 150px auto 20px auto;
+    width: fit-content;
+    height: 400px;
+    overflow: auto;
   }
 
-  .items-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
+  table {
+    width: 800px;
   }
 
   th, td {
@@ -312,16 +313,12 @@
      background-color: #eee;
   }
 
-  .edit-button {
-    color: #007bff;
-  }
-
-  .delete-button {
-    color: #dc3545;
+  .add-button-container {
+    margin: auto;
+    width: fit-content;
   }
 
   .add-button {
-    display: inline-flex;
     align-items: center;
     padding: 10px 20px;
     background-color: #f0f0f0;
@@ -337,19 +334,6 @@
   .add-button:hover {
     background-color: #e0e0e0;
     box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-  }
-
-  .add-icon {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    line-height: 18px;
-    text-align: center;
-    border: 1px solid #aaa;
-    border-radius: 50%;
-    margin-right: 8px;
-    font-weight: bold;
-    color: #555;
   }
 
 </style>
