@@ -202,7 +202,7 @@
 
     <div class="add-button-container">
       <button @click="addItem" class="add-button">
-        <span class="">➕</span> Tambah Barang
+        <span class="">➕</span> Tambah Data Barang
       </button>
     </div>
 
@@ -211,7 +211,8 @@
 
 <script setup>
 
-  import { ref } from 'vue';
+  import router from '@/router';
+import { ref } from 'vue';
 
   const barang = ref([]);
 
@@ -230,7 +231,7 @@
   };
 
   const addItem = () => {
-    // console.log('Tambah Barang clicked');
+    router.push({ name: 'tambahBarang' });
   };
 
   const editItem = (id) => {

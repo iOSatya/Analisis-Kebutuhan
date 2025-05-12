@@ -33,8 +33,10 @@
 
   const route = useRoute();
   const hideNavbar = computed(() => {
-    return  route.name === 'home'     ||
-            route.name === 'login'    || 
-            route.name === 'register';
+    return  route.name === 'home'           ||
+            route.name === 'login'          || 
+            route.name === 'register'       ||
+            route.name === 'tambahBarang'   ||
+            route.name === 'tambahUtang';
   });
 </script>

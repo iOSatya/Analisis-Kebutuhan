@@ -265,7 +265,8 @@
 
 <script setup>
 
-  import { ref } from 'vue';
+  import router from '@/router';
+import { ref } from 'vue';
 
   const debts = ref([]);
 
@@ -288,7 +289,7 @@
   };
 
   const addDebt = () => {
-    console.log('Tambah Data Utang clicked');
+    router.push({ name: 'tambahUtang' });
   };
 
   const deleteDebt = async (id) => {

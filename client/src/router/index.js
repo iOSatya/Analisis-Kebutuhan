@@ -57,6 +57,8 @@ import BarangView from "@/views/BarangView.vue";
 import UtangView from "@/views/UtangView.vue";
 import TransaksiView from '@/views/TransaksiView.vue';
 import KasirView from '@/views/KasirView.vue';
+import TambahUtangView from '@/views/TambahUtangView.vue';
+import TambahBarangView from '@/views/TambahBarangView.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -83,13 +85,33 @@ const router = createRouter({
     },
     { 
       path: "/barang",
-      name: "barang", 
-      component: BarangView 
+      children: [
+        {
+          path: "",
+          name: "barang",
+          component: BarangView
+        },
+        {
+          path: "tambahBarang",
+          name: "tambahBarang",
+          component: TambahBarangView
+        }
+      ]
     },
     { 
       path: "/utang", 
-      name: "utang", 
-      component: UtangView
+      children: [
+        {
+          path: "",
+          name: "utang",
+          component: UtangView
+        },
+        {
+          path: "tambahUtang",
+          name: "tambahUtang",
+          component: TambahUtangView
+        }
+      ],
     },
     {
       path: '/kasir',
