@@ -172,7 +172,7 @@
 
 <template>
 
-  <div class="flex h-screen items-center p-20">
+  <div class="flex h-screen items-center p-20 mt-20">
     <div class="items-table-container w-full m-12">
       <table class="items-table">
         <thead>
@@ -185,12 +185,12 @@
             <th>Aksi</th> </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in items" :key="item.id">
+          <tr v-for="(item, index) in barang" :key="item.id">
             <td>{{ index + 1 }}</td>
             <td>{{ item.nama }}</td>
             <td>{{ item.stock }}</td>
             <td>{{ item.terjual }}</td>
-            <td>{{ formatCurrency(item.harga) }}</td>
+            <td>{{ formatCurrency(item.harga_beli) }}</td>
             <td class="actions">
                <button @click="editItem(item.id)" class="action-button edit-button">✏️</button>
                <button @click="deleteItem(item.id)" class="action-button delete-button">🗑️</button>
@@ -211,11 +211,17 @@
 
   import { ref } from 'vue';
 
-  const items = ref([
-    { id: 1, nama: 'Aqua', stock: 28, terjual: 2, harga: 3000 },
-    { id: 2, nama: 'Mie Instan', stock: 19, terjual: 1, harga: 2500 },
-    { id: 3, nama: 'Pasta Gigi', stock: 18, terjual: 2, harga: 4000 },
-  ]);
+  const barang = ref([]);
+
+  (async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/barang');
+      barang.value = await response.json();
+    } catch (error) {
+      // console.error(error);
+      alert('gagal mengambil data barang');
+    }
+  })();
 
   const formatCurrency = (value) => {
     return value.toLocaleString('id-ID');
@@ -229,8 +235,23 @@
     console.log(`Edit item with id: ${id}`);
   };
 
-  const deleteItem = (id) => {
-    console.log(`Delete item with id: ${id}`);
+  const deleteItem = async (id) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/barang/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+      if (response.ok) {
+        barang.value = barang.value.filter(item => item.id !== id);
+      } else {
+        alert('gagal menghapus data barang');
+      }
+    } catch (error) {
+      // console.error(error);
+      alert('gagal menghapus data barang');
+    }
   };
   
 </script>
