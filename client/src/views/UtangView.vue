@@ -266,7 +266,7 @@
 <script setup>
 
   import router from '@/router';
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
   const debts = ref([]);
 
@@ -316,7 +316,7 @@ import { ref } from 'vue';
         method: "PUT",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
-          "tanggal_lunas": tanggalLunas,
+          tanggal_lunas: tanggalLunas,
         })
       });
       if (response.ok) {

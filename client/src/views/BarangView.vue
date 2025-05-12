@@ -212,7 +212,7 @@
 <script setup>
 
   import router from '@/router';
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
   const barang = ref([]);
 

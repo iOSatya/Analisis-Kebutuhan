@@ -66,12 +66,12 @@
       <label for="username" class="mb-1 text-sm font-medium text-gray-700">
         E-Mail
       </label>
-      <input id="username" type="text" v-model="loginForm.email" placeholder="" class="mb-4 px-4 py-2 border border-gray-300 rounded-full shadow-inner bg-gray-200 focus:outline-none focus:ring-2 focus:ring-green-300">
+      <input id="username" type="text" v-model="loginForm.email" placeholder="" class="mb-4 px-4 py-2 border border-gray-300 rounded-full shadow-inner bg-gray-200 focus:outline-none focus:ring-2 focus:ring-green-300" required>
 
       <label for="password" class="mb-1 text-sm font-medium text-gray-700">
         Password
       </label>
-      <input id="password" type="password" v-model="loginForm.password" placeholder="" class="mb-6 px-4 py-2 border border-gray-300 rounded-full shadow-inner bg-gray-200 focus:outline-none focus:ring-2 focus:ring-green-300">
+      <input id="password" type="password" v-model="loginForm.password" placeholder="" class="mb-6 px-4 py-2 border border-gray-300 rounded-full shadow-inner bg-gray-200 focus:outline-none focus:ring-2 focus:ring-green-300" required>
 
       <button type="submit" class="w-full py-2 px-4 bg-green-300 text-gray-800 font-semibold rounded-full shadow-md hover:bg-green-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
         LOGIN
