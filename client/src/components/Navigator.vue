@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   
   <div class="flex flex-col w-40 h-60 justify-evenly p-8 bg-gray-200 rounded-lg shadow-md">
     <RouterLink :to="{name: 'keuangan'}">KEUANGAN</RouterLink>
@@ -47,4 +47,52 @@
     font-weight: bold;
   }
 
-</style>
+</style> -->
+
+<!-- ------------------------------------------------------------------------------------------------------------------------------ -->
+
+<template>
+  
+  <div class="flex justify-between items-center p-4 bg-green-300 text-gray-500 shadow-lg">
+    <div class="flex space-x-6">
+      <RouterLink :to="{name: 'keuangan'}" class="px-4 py-2 hover:text-gray-900 transition duration-300 font-medium">KEUANGAN</RouterLink>
+      <RouterLink :to="{name: 'barang'}" class="px-4 py-2 hover:text-gray-900 transition duration-300 font-medium">BARANG</RouterLink>
+      <RouterLink :to="{name: 'utang'}" class="px-4 py-2 hover:text-gray-900 transition duration-300 font-medium">UTANG</RouterLink>
+      <RouterLink :to="{name: 'home'}" class="px-4 py-2 hover:text-gray-900 transition duration-300 font-medium">KASIR</RouterLink>
+      <RouterLink :to="{name: 'transaksi'}" class="px-4 py-2 hover:text-gray-900 transition duration-300 font-medium">TRANSAKSI</RouterLink>
+    </div>
+    <button 
+      @click="sendLogout" 
+      class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-md transition duration-300">
+      LOG OUT
+    </button>
+  </div>
+
+</template>
+
+<script setup>
+
+  import router from '@/router';
+
+  const sendLogout = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      await fetch("http://127.0.0.1:8000/api/logout", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
+    } catch (error) {
+      // console.error(error);
+      alert("Kesalahan Sistem");
+    } finally {
+      localStorage.removeItem("token");
+      router.push({ name: "login" });
+    }
+  }
+  
+</script>
+
+  
