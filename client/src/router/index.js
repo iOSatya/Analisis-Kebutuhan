@@ -92,7 +92,7 @@ const router = createRouter({
           component: BarangView
         },
         {
-          path: "tambahBarang",
+          path: "tambah-barang",
           name: "tambahBarang",
           component: TambahBarangView
         }
@@ -107,7 +107,7 @@ const router = createRouter({
           component: UtangView
         },
         {
-          path: "tambahUtang",
+          path: "tambah-utang",
           name: "tambahUtang",
           component: TambahUtangView
         }
