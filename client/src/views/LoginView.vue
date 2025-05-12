@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-    <h1 class="text-2xl font-semibold mb-6">LOGIN</h1>
+    <h1 class="text-2xl font-semibold mb-6">Login</h1>
     <form @submit.prevent="sendLoginForm" class="flex flex-col w-full max-w-xs">
       <label for="username" class="mb-1 text-sm font-medium text-gray-700">
         E-Mail
@@ -27,7 +27,7 @@
 
   import { ref } from 'vue';
   import { useAuthStore } from '@/stores/auth';
-import router from '@/router';
+  import router from '@/router';
 
   const AuthStore = useAuthStore();
 
@@ -43,14 +43,12 @@ import router from '@/router';
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(loginForm.value)
       });
-
       const responseData = await response.json();
       AuthStore.addToken(responseData["token"]);
       alert(responseData["message"]);
       if (response.ok) {
         router.push({name: "barang"});
       }
-      
     } catch (error) {
       console.log(error);
       alert("Kesalahan Sistem");

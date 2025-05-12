@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 py-10">
-    <h1 class="text-2xl font-semibold mb-6">REGISTER</h1>
+    <h1 class="text-2xl font-semibold mb-6">Register</h1>
     <form @submit.prevent="sendRegisterForm" class="flex flex-col w-full max-w-xs">
 
       <label for="name" class="mb-1 text-sm font-medium text-gray-700">Name</label>
@@ -30,6 +30,7 @@
 <script setup>
 
   import { ref } from 'vue';
+  import router from '@/router';
 
   const registerForm = ref({
     name: "",
@@ -45,11 +46,13 @@
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(registerForm.value)
       });
-
       const responseData = await response.json();
       alert(responseData["message"]);
+      if (response.ok) {
+        router.push({name: "barang"});
+      }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       alert("Kesalahan Sistem");
     }
   }
