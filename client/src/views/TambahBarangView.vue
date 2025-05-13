@@ -98,7 +98,7 @@
       const responseData = await response.json();
       if (response.ok) {
         alert(responseData.message);
-        router.push({ name: "barang" });
+        await router.push({name: "barang"});
       } else {
         alert("gagal menambahkan barang");
       }

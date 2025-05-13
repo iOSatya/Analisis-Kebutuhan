@@ -1,5 +1,5 @@
 <template>
-  
+
   <h1>ini history transaksi</h1>
 
 </template>
