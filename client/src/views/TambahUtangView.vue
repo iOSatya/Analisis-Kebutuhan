@@ -7,7 +7,7 @@
             <!-- Nama Penghutang -->
             <label class="form-label">Nama Penghutang</label>
             <div class="form-input">
-                <input v-model="tambahUtangForm.nama" type="text" class="input-text" />
+                <input v-model="tambahUtangForm.nama" type="text" placeholder="masukkan nama penghutang" class="input-text" />
             </div>
 
             <!-- Tanggal Berhutang -->

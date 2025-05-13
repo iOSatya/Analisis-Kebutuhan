@@ -241,7 +241,7 @@
           <td>{{ debt.nama }}</td>
           <td>{{ debt.nama_barang }}</td>
           <td>{{ debt.jumlah_barang }}</td>
-          <td>{{ formatCurrency(debt.nominal_utang) }}</td>
+          <td><b>{{ formatCurrency(debt.nominal_utang) }}</b></td>
           <td :class="getStatusClass(debt.status)">{{ debt.status }}</td>
           <td class="actions">
               <button v-if="!debt.tanggal_lunas" @click="markAsPaid(debt.id)" style="cursor: pointer;" title="Tandai Lunas">

@@ -190,7 +190,7 @@
             <td>{{ item.nama }}</td>
             <td>{{ item.sisa_stock }}</td>
             <td>{{ item.terjual }}</td>
-            <td>{{ formatCurrency(item.harga_beli) }}</td>
+            <td>{{ formatCurrency(item.harga_jual) }}</td>
             <td class="actions">
                <button @click="editItem(item.id)" class="action-button edit-button">✏️</button>
                <button @click="deleteItem(item.id)" class="action-button delete-button">🗑️</button>
@@ -235,7 +235,7 @@
   };
 
   const editItem = (id) => {
-    // console.log(`Edit item with id: ${id}`);
+    router.push({ name: 'editBarang', params: { id: id } });
   };
 
   const deleteItem = async (id) => {

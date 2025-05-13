@@ -59,6 +59,7 @@ import TransaksiView from '@/views/TransaksiView.vue';
 import KasirView from '@/views/KasirView.vue';
 import TambahUtangView from '@/views/TambahUtangView.vue';
 import TambahBarangView from '@/views/TambahBarangView.vue';
+import EditBarangView from "@/views/EditBarangView.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -95,6 +96,11 @@ const router = createRouter({
           path: "tambah-barang",
           name: "tambahBarang",
           component: TambahBarangView
+        },
+        {
+          path: ":id",
+          name: "editBarang",
+          component: EditBarangView
         }
       ]
     },
