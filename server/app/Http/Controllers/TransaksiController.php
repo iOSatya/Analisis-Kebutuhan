@@ -20,30 +20,29 @@ class TransaksiController extends Controller
     public function add(Request $request)
     {
         $validated = $request->validate([
-            'barang_id' => 'required|array',
-            'nama' => 'required|array',
-            'harga' => 'required|array',
-            'jumlah_barang' => 'required|array',
-            'total' => 'required|array',
+            '*.barang_id' => 'required|integer|exists:barang,id',
+            '*.nama' => 'required|string',
+            '*.harga' => 'required|numeric',
+            '*.jumlah_barang' => 'required|integer|min:1',
+            '*.total' => 'required|numeric',
         ]);
 
-        $count = count($validated['nama']);
-
-        for ($i = 0; $i < $count; $i++) {
+        foreach ($validated as $item) {
             Transaksi::create([
-                'barang_id' => $validated['barang_id'][$i],
-                'nama' => $validated['nama'][$i],
-                'harga' => $validated['harga'][$i],
-                'jumlah_barang' => $validated['jumlah_barang'][$i],
-                'total' => $validated['total'][$i],
+                'barang_id' => $item['barang_id'],
+                'nama' => $item['nama'],
+                'harga' => $item['harga'],
+                'jumlah_barang' => $item['jumlah_barang'],
+                'total' => $item['total'],
             ]);
 
-            $barang = Barang::findOrFail($validated['barang_id'][$i]);
-            $barang->pendapatan += $validated['total'][$i];
-            $barang->terjual += $validated['jumlah_barang'][$i];
+            $barang = Barang::findOrFail($item['barang_id']);
+            $barang->pendapatan += $item['total'];
+            $barang->terjual += $item['jumlah_barang'];
             $barang->save();
         }
 
         return response()->json(['message' => 'transaksi berhasil disimpan']);
     }
+
 }

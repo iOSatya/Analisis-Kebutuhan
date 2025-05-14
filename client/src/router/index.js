@@ -55,7 +55,7 @@ import RegisterView from "@/views/RegisterView.vue";
 import KeuanganView from "@/views/KeuanganView.vue";
 import BarangView from "@/views/BarangView.vue";
 import UtangView from "@/views/UtangView.vue";
-import TransaksiView from '@/views/TransaksiView.vue';
+import RiwayatTransaksiView from '@/views/RiwayatTransaksiView.vue';
 import KasirView from '@/views/KasirView.vue';
 import TambahUtangView from '@/views/TambahUtangView.vue';
 import TambahBarangView from '@/views/TambahBarangView.vue';
@@ -125,9 +125,9 @@ const router = createRouter({
       component: KasirView
     },
     {
-      path: "/transaksi",
-      name: "transaksi",
-      component: TransaksiView
+      path: "/riwayat-transaksi",
+      name: "riwayatTransaksi",
+      component: RiwayatTransaksiView
     },
   ],
 })

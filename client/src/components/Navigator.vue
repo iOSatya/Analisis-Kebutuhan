@@ -76,9 +76,9 @@
         KASIR
       </RouterLink>
       <RouterLink 
-        :to="{ name: 'transaksi' }" 
+        :to="{ name: 'riwayatTransaksi' }"
         :class="navClass('transaksi')">
-        TRANSAKSI
+        RIWAYAT TRANSAKSI
       </RouterLink>
     </div>
     <button 
