@@ -63,7 +63,7 @@ import {onMounted, ref, watchEffect} from "vue";
   const prosesTransaksi = async () => {
     for (const i in listIndex.value) {
       belanjaanPelanggan.value.push({
-        tanggal: new Date().toISOString().slice(0, 19).replace('T', ' '),
+        tanggal: getClientLocalDateTime(),
         barang_id: listBarang.value[i].id,
         nama: listBarang.value[i].nama,
         harga: listBarang.value[i].harga_jual,
@@ -93,6 +93,13 @@ import {onMounted, ref, watchEffect} from "vue";
       alert("kesalahan sistem");
     }
     window.location.reload();
+  }
+
+  function getClientLocalDateTime() {
+    const now = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ` +
+          `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
   }
 
   watchEffect(async () => {
