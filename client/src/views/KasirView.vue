@@ -1,56 +1,3 @@
-<template>
-
-  <div class="container">
-    <!-- Search bar -->
-    <div class="search-bar-wrapper">
-      <input type="text" placeholder="cari barang..." class="search-bar" />
-      <button class="btn btn-search">Search</button>
-      <button class="btn btn-clear">Clear</button>
-    </div>
-
-    <!-- Item table -->
-    <div class="table-wrapper">
-      <table>
-        <thead>
-        <tr>
-          <th>No</th>
-          <th>Nama</th>
-          <th>Sisa Stock</th>
-          <th>Harga</th>
-          <th>Jumlah Barang</th>
-          <th>Total</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="(barang, index) in listBarang" :key="barang.id">
-          <td>{{ index + 1 }}</td>
-          <td>{{ barang.nama }}</td>
-          <td>{{ barang.sisa_stock }}</td>
-          <td>{{ barang.harga_jual }}</td>
-          <td>
-            <input
-                v-model.number="listJumlahBarangBelanjaanPelanggan[index]"
-                @input="listIndex[index] = index"
-                type="number">
-          </td>
-          <td>{{ listJumlahBarangBelanjaanPelanggan[index] * barang.harga_jual }}</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Total harga keseluruhan -->
-    <br>
-    <h2>Total Harga Keseluruhan : {{ totalHargaKeseluruhan }} </h2>
-
-    <!-- Proses Transaksi -->
-    <button class="process-btn" @click="prosesTransaksi">
-      💲 Proses Transaksi
-    </button>
-  </div>
-
-</template>
-
 <script setup>
 import {onMounted, ref, watchEffect} from "vue";
 
@@ -129,6 +76,59 @@ import {onMounted, ref, watchEffect} from "vue";
   });
 
 </script>
+
+<template>
+
+  <div class="container">
+    <!-- Search bar -->
+    <div class="search-bar-wrapper">
+      <input type="text" placeholder="cari barang..." class="search-bar" />
+      <button class="btn btn-search">Search</button>
+      <button class="btn btn-clear">Clear</button>
+    </div>
+
+    <!-- Item table -->
+    <div class="table-wrapper">
+      <table>
+        <thead>
+        <tr>
+          <th>No</th>
+          <th>Nama</th>
+          <th>Sisa Stock</th>
+          <th>Harga</th>
+          <th>Jumlah Barang</th>
+          <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(barang, index) in listBarang" :key="barang.id">
+          <td>{{ index + 1 }}</td>
+          <td>{{ barang.nama }}</td>
+          <td>{{ barang.sisa_stock }}</td>
+          <td>{{ barang.harga_jual }}</td>
+          <td>
+            <input
+                v-model.number="listJumlahBarangBelanjaanPelanggan[index]"
+                @input="listIndex[index] = index"
+                type="number">
+          </td>
+          <td>{{ listJumlahBarangBelanjaanPelanggan[index] * barang.harga_jual }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Total harga keseluruhan -->
+    <br>
+    <h2>Total Harga Keseluruhan : {{ totalHargaKeseluruhan }} </h2>
+
+    <!-- Proses Transaksi -->
+    <button class="process-btn" @click="prosesTransaksi">
+      💲 Proses Transaksi
+    </button>
+  </div>
+
+</template>
 
 <style scoped>
 

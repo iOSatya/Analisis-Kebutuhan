@@ -1,42 +1,3 @@
-<template>
-
-    <div class="table-container">
-      <table class="">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Nama</th>
-            <th>Sisa Stock</th>
-            <th>Terjual</th>
-            <th>Harga</th>
-            <th>Aksi</th> 
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in barang" :key="item.id">
-            <td>{{ index + 1 }}</td>
-            <td>{{ item.nama }}</td>
-            <td>{{ item.sisa_stock }}</td>
-            <td>{{ item.terjual }}</td>
-            <td>{{ formatCurrency(item.harga_jual) }}</td>
-            <td class="actions">
-               <button @click="editItem(item.id)" class="action-button edit-button">✏️</button>
-               <button @click="deleteItem(item.id)" class="action-button delete-button">🗑️</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="add-button-container">
-      <button @click="addItem" class="add-button">
-        <span class="">➕</span> Tambah Data Barang
-      </button>
-    </div>
-
-</template>
-
-
 <script setup>
 
   import router from '@/router';
@@ -86,6 +47,44 @@
   };
   
 </script>
+
+<template>
+
+  <div class="table-container">
+    <table class="">
+      <thead>
+      <tr>
+        <th>No</th>
+        <th>Nama</th>
+        <th>Sisa Stock</th>
+        <th>Terjual</th>
+        <th>Harga</th>
+        <th>Aksi</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="(item, index) in barang" :key="item.id">
+        <td>{{ index + 1 }}</td>
+        <td>{{ item.nama }}</td>
+        <td>{{ item.sisa_stock }}</td>
+        <td>{{ item.terjual }}</td>
+        <td>{{ formatCurrency(item.harga_jual) }}</td>
+        <td class="actions">
+          <button @click="editItem(item.id)" class="action-button edit-button">✏️</button>
+          <button @click="deleteItem(item.id)" class="action-button delete-button">🗑️</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="add-button-container">
+    <button @click="addItem" class="add-button">
+      <span class="">➕</span> Tambah Data Barang
+    </button>
+  </div>
+
+</template>
 
 <style scoped>
 

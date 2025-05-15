@@ -1,78 +1,3 @@
-<template>
-  <div class="add-item-form-container">
-    <h2 class="form-title">TAMBAH BARANG</h2>
-    <form @submit.prevent="handleSubmit">
-      <div class="form-group">
-        <label for="namaBarang">Nama Barang</label>
-        <input
-          type="text"
-          id="namaBarang"
-          v-model="item.nama"
-          placeholder="Masukkan nama barang"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="hargaBeli">Harga Beli</label>
-        <input
-          type="number"
-          id="hargaBeli"
-          v-model.number="item.harga_beli"
-          placeholder="Masukkan harga beli barang"
-          required
-          min="0"
-        />
-      </div>
-      <div class="form-group">
-        <label for="hargaJual">Harga Jual</label>
-        <input
-          type="number"
-          id="hargaJual"
-          v-model.number="item.harga_jual"
-          placeholder="Masukkan harga jual barang"
-          required
-          min="0"
-        />
-      </div>
-      <div class="form-group">
-        <label for="stock">Stock</label>
-        <input
-          type="number"
-          id="stock"
-          v-model.number="item.stock"
-          placeholder="Masukkan jumlah stock"
-          required
-          min="0"
-        />
-      </div>
-      <div class="form-group">
-        <label for="modal">Modal</label>
-        <div class="input-with-button">
-          <input
-            type="number"
-            id="modal"
-            v-model.number="item.modal"
-            placeholder="Total modal (harga beli × stock)"
-            required
-            min="0"
-          />
-          <button 
-            type="button" 
-            class="btn-calculate" 
-            @click="calculateModal"
-          >
-            Hitung
-          </button>
-        </div>
-      </div>
-      <div class="button-group">
-        <button type="submit" class="btn btn-update">SIMPAN</button>
-        <RouterLink :to="{ name: 'barang' }" class="btn btn-back">Kembali</RouterLink>
-      </div>
-    </form>
-  </div>
-</template>
-
 <script setup>
 
   import router from '@/router';
@@ -113,6 +38,81 @@
   };
 
 </script>
+
+<template>
+  <div class="add-item-form-container">
+    <h2 class="form-title">TAMBAH BARANG</h2>
+    <form @submit.prevent="handleSubmit">
+      <div class="form-group">
+        <label for="namaBarang">Nama Barang</label>
+        <input
+            type="text"
+            id="namaBarang"
+            v-model="item.nama"
+            placeholder="Masukkan nama barang"
+            required
+        />
+      </div>
+      <div class="form-group">
+        <label for="hargaBeli">Harga Beli</label>
+        <input
+            type="number"
+            id="hargaBeli"
+            v-model.number="item.harga_beli"
+            placeholder="Masukkan harga beli barang"
+            required
+            min="0"
+        />
+      </div>
+      <div class="form-group">
+        <label for="hargaJual">Harga Jual</label>
+        <input
+            type="number"
+            id="hargaJual"
+            v-model.number="item.harga_jual"
+            placeholder="Masukkan harga jual barang"
+            required
+            min="0"
+        />
+      </div>
+      <div class="form-group">
+        <label for="stock">Stock</label>
+        <input
+            type="number"
+            id="stock"
+            v-model.number="item.stock"
+            placeholder="Masukkan jumlah stock"
+            required
+            min="0"
+        />
+      </div>
+      <div class="form-group">
+        <label for="modal">Modal</label>
+        <div class="input-with-button">
+          <input
+              type="number"
+              id="modal"
+              v-model.number="item.modal"
+              placeholder="Total modal (harga beli × stock)"
+              required
+              min="0"
+          />
+          <button
+              type="button"
+              class="btn-calculate"
+              @click="calculateModal"
+          >
+            Hitung
+          </button>
+        </div>
+      </div>
+      <div class="button-group">
+        <button type="submit" class="btn btn-update">SIMPAN</button>
+        <RouterLink :to="{ name: 'barang' }" class="btn btn-back">Kembali</RouterLink>
+      </div>
+    </form>
+  </div>
+</template>
 
 <style scoped>
 .add-item-form-container {

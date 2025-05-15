@@ -1,23 +1,3 @@
-<template>
-  
-  <div class="flex h-screen items-center p-20">
-    <div class="financial-details w-full m-12">
-      <div class="detail-item">
-        <span class="icon">📅</span>
-        <span>Pendapatan Periode {{ periode }}: {{ pendapatanPeriode }}</span>
-      </div>
-      <div class="detail-item">
-        <span class="icon">✏️</span>
-        <span>Ekspektasi Pendapatan: {{ ekspektasiPendapatan }}</span>
-      </div>
-      <div class="detail-item status" :class="statusClass">
-        <span>Status: {{ statusMessage }}</span>
-      </div>
-    </div>
-  </div>
-
-</template>
-
 <script setup>
 
   import { ref, computed } from 'vue';
@@ -39,6 +19,26 @@
   });
 
 </script>
+
+<template>
+
+  <div class="flex h-screen items-center p-20">
+    <div class="financial-details w-full m-12">
+      <div class="detail-item">
+        <span class="icon">📅</span>
+        <span>Pendapatan Periode {{ periode }}: {{ pendapatanPeriode }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="icon">✏️</span>
+        <span>Ekspektasi Pendapatan: {{ ekspektasiPendapatan }}</span>
+      </div>
+      <div class="detail-item status" :class="statusClass">
+        <span>Status: {{ statusMessage }}</span>
+      </div>
+    </div>
+  </div>
+
+</template>
 
 <style scoped>
 

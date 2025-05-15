@@ -1,3 +1,75 @@
+<script setup>
+
+import router from '@/router';
+import { ref, watchEffect } from 'vue';
+
+const barang = ref([]);
+
+const tambahUtangForm = ref({
+  tanggal_berhutang: "",
+  nama: "",
+  barang_id: "",
+  nama_barang: "",
+  jumlah_barang: 0,
+  nominal_utang: 0
+});
+
+const submit = async () => {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/api/utang", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(tambahUtangForm.value)
+    });
+    if (response.ok) {
+      alert("berhasil menambah data utang");
+      router.push({ name: 'utang' });
+    } else {
+      alert("gagal menambah data utang");
+    }
+  } catch (error) {
+    // console.log(error);
+    alert("kesalahan sistem");
+  }
+}
+
+const back = () => {
+  router.push({ name: 'utang' });
+};
+
+(async () => {
+  try {
+    const response = await fetch('http://127.0.0.1:8000/api/barang');
+    const data = await response.json();
+    barang.value = data.filter(item => item.sisa_stock > 0);
+  } catch (error) {
+    // console.error(error);
+    alert('gagal mengambil data barang');
+  }
+})();
+
+watchEffect(async () => {
+  const idBarang = tambahUtangForm.value.barang_id;
+  const jumlah_barang = tambahUtangForm.value.jumlah_barang;
+  tambahUtangForm.value.nama_barang = barang.value.find(item => item.id === idBarang)?.nama || "";
+  barang.value.forEach(item => {
+    if (item.id === idBarang) {
+      if (jumlah_barang > item.sisa_stock) {
+        alert("jumlah barang melebihi stock");
+        tambahUtangForm.value.jumlah_barang = item.sisa_stock;
+        tambahUtangForm.value.nominal_utang = item.harga_jual * item.sisa_stock;
+      } else if (jumlah_barang < 0) {
+        alert("jumlah barang tidak boleh kurang dari 0");
+        tambahUtangForm.value.jumlah_barang = 0;
+        tambahUtangForm.value.nominal_utang = 0;
+      } else {
+        tambahUtangForm.value.nominal_utang = item.harga_jual * jumlah_barang;
+      }
+    }
+  });
+})
+</script>
+
 <template>
 
     <div class="form-container">
@@ -48,79 +120,6 @@
     </div>
 
 </template>
-
-<script setup>
-    
-    import router from '@/router';
-    import { ref, watchEffect } from 'vue';
-
-    const barang = ref([]);
-
-    const tambahUtangForm = ref({
-        tanggal_berhutang: "", 
-        nama: "", 
-        barang_id: "", 
-        nama_barang: "", 
-        jumlah_barang: 0, 
-        nominal_utang: 0
-    });
-
-    const submit = async () => {
-        try {
-            const response = await fetch("http://127.0.0.1:8000/api/utang", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(tambahUtangForm.value)
-            });
-            if (response.ok) {
-                alert("berhasil menambah data utang");
-                router.push({ name: 'utang' });
-            } else {
-                alert("gagal menambah data utang");
-            }
-        } catch (error) {
-            // console.log(error);
-            alert("kesalahan sistem");
-        }
-    }
-
-    const back = () => {
-        router.push({ name: 'utang' });
-    };
-
-    (async () => {
-        try {
-            const response = await fetch('http://127.0.0.1:8000/api/barang');
-            const data = await response.json();
-            barang.value = data.filter(item => item.sisa_stock > 0);
-        } catch (error) {
-            // console.error(error);
-            alert('gagal mengambil data barang');
-        }
-    })();
-
-    watchEffect(async () => {
-        const idBarang = tambahUtangForm.value.barang_id;
-        const jumlah_barang = tambahUtangForm.value.jumlah_barang;
-        tambahUtangForm.value.nama_barang = barang.value.find(item => item.id === idBarang)?.nama || "";
-        barang.value.forEach(item => {
-            if (item.id === idBarang) {
-                if (jumlah_barang > item.sisa_stock) {
-                    alert("jumlah barang melebihi stock");
-                    tambahUtangForm.value.jumlah_barang = item.sisa_stock;
-                    tambahUtangForm.value.nominal_utang = item.harga_jual * item.sisa_stock;
-                } else if (jumlah_barang < 0) {
-                    alert("jumlah barang tidak boleh kurang dari 0");
-                    tambahUtangForm.value.jumlah_barang = 0;
-                    tambahUtangForm.value.nominal_utang = 0;
-                } else {
-                    tambahUtangForm.value.nominal_utang = item.harga_jual * jumlah_barang;
-                }
-            }
-        });
-    })
-</script>
-
 
 <style scoped>
 

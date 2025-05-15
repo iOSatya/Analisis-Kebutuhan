@@ -1,3 +1,76 @@
+<script setup>
+
+import router from '@/router';
+import { ref } from 'vue';
+
+const debts = ref([]);
+
+(async () => {
+  try {
+    const response = await fetch('http://127.0.0.1:8000/api/utang');
+    debts.value = await response.json();
+  } catch (error) {
+    // console.error(error);
+    alert('gagal mengambil data utang');
+  }
+})();
+
+const formatCurrency = (value) => {
+  return value.toLocaleString('id-ID');
+};
+
+const getStatusClass = (status) => {
+  return status === 'Lunas' ? 'status-lunas' : 'status-belum-lunas';
+};
+
+const addDebt = () => {
+  router.push({ name: 'tambahUtang' });
+};
+
+const deleteDebt = async (id) => {
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/api/utang/${id}`, {
+      method: "DELETE",
+      headers: {"Content-Type": "application/json"},
+    });
+    if (response.ok) {
+      debts.value = debts.value.filter(debt => debt.id !== id);
+    } else {
+      alert('gagal hapus utang');
+    }
+  } catch (error) {
+    // console.error(error);
+    alert('gagal hapus utang');
+  }
+};
+
+const markAsPaid = async (id) => {
+  try {
+    const tanggalLunas = new Date().toISOString().split('T')[0];
+    const response = await fetch(`http://127.0.0.1:8000/api/utang/${id}`, {
+      method: "PUT",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        tanggal_lunas: tanggalLunas,
+      })
+    });
+    if (response.ok) {
+      const debtIndex = debts.value.findIndex(debt => debt.id === id);
+      if (debtIndex !== -1) {
+        debts.value[debtIndex].status = 'Lunas';
+        debts.value[debtIndex].tanggal_lunas = tanggalLunas;
+      }
+    } else {
+      alert('gagal menandai lunas utang');
+    }
+  } catch (error) {
+    // console.error(error);
+    alert('gagal menandai lunas utang');
+  }
+};
+
+</script>
+
 <template>
 
   <div class="table-container">
@@ -44,79 +117,6 @@
   </div>
 
 </template>
-
-<script setup>
-
-  import router from '@/router';
-  import { ref } from 'vue';
-
-  const debts = ref([]);
-
-  (async () => {
-    try {
-      const response = await fetch('http://127.0.0.1:8000/api/utang');
-      debts.value = await response.json();
-    } catch (error) {
-      // console.error(error);
-      alert('gagal mengambil data utang');
-    }
-  })();
-
-  const formatCurrency = (value) => {
-    return value.toLocaleString('id-ID');
-  };
-
-  const getStatusClass = (status) => {
-    return status === 'Lunas' ? 'status-lunas' : 'status-belum-lunas';
-  };
-
-  const addDebt = () => {
-    router.push({ name: 'tambahUtang' });
-  };
-
-  const deleteDebt = async (id) => {
-    try {
-      const response = await fetch(`http://127.0.0.1:8000/api/utang/${id}`, {
-        method: "DELETE",
-        headers: {"Content-Type": "application/json"},
-      });
-      if (response.ok) {
-        debts.value = debts.value.filter(debt => debt.id !== id);
-      } else {
-        alert('gagal hapus utang');
-      }
-    } catch (error) {
-      // console.error(error);
-      alert('gagal hapus utang');
-    }
-  };
-
-  const markAsPaid = async (id) => {
-    try {
-      const tanggalLunas = new Date().toISOString().split('T')[0];
-      const response = await fetch(`http://127.0.0.1:8000/api/utang/${id}`, {
-        method: "PUT",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-          tanggal_lunas: tanggalLunas,
-        })
-      });
-      if (response.ok) {
-        const debtIndex = debts.value.findIndex(debt => debt.id === id);
-        if (debtIndex !== -1) {
-          debts.value[debtIndex].status = 'Lunas';
-          debts.value[debtIndex].tanggal_lunas = tanggalLunas;
-        }
-      } else {
-        alert('gagal menandai lunas utang');
-      }
-    } catch (error) {
-      // console.error(error);
-      alert('gagal menandai lunas utang');
-    }
-  };
-
-</script>
 
 <style scoped>
 

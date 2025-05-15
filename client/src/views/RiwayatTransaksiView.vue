@@ -1,3 +1,25 @@
+<script setup>
+
+import { ref } from 'vue';
+
+const transaksi = ref([]);
+
+(async () => {
+  try {
+    const response = await fetch('http://127.0.0.1:8000/api/transaksi');
+    transaksi.value = await response.json();
+  } catch (error) {
+    // console.error(error);
+    alert('gagal mengambil data transaksi');
+  }
+})();
+
+const formatCurrency = (value) => {
+  return value.toLocaleString('id-ID');
+};
+
+</script>
+
 <template>
 
   <div class="table-container">
@@ -26,57 +48,6 @@
   </div>
 
 </template>
-
-
-<script setup>
-
-import router from '@/router';
-import { ref } from 'vue';
-
-const transaksi = ref([]);
-
-(async () => {
-  try {
-    const response = await fetch('http://127.0.0.1:8000/api/transaksi');
-    transaksi.value = await response.json();
-  } catch (error) {
-    // console.error(error);
-    alert('gagal mengambil data transaksi');
-  }
-})();
-
-const formatCurrency = (value) => {
-  return value.toLocaleString('id-ID');
-};
-
-const addItem = () => {
-  router.push({ name: 'tambahBarang' });
-};
-
-const editItem = (id) => {
-  router.push({ name: 'editBarang', params: { id: id } });
-};
-
-const deleteItem = async (id) => {
-  try {
-    const response = await fetch(`http://127.0.0.1:8000/api/transaksi/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    });
-    if (response.ok) {
-      transaksi.value = transaksi.value.filter(item => item.id !== id);
-    } else {
-      alert('gagal menghapus data transaksi');
-    }
-  } catch (error) {
-    // console.error(error);
-    alert('gagal menghapus data transaksi');
-  }
-};
-
-</script>
 
 <style scoped>
 

@@ -1,33 +1,3 @@
-<template>
-
-  <div class="form-container">
-    <form @submit.prevent="submit" class="form">
-      <h1 class="form-title">EDIT BARANG</h1>
-
-      <!-- Nama Barang -->
-      <label class="form-label">Nama</label>
-      <div class="form-input">
-        <input v-model="editBarangForm.nama" type="text" class="input-text" />
-      </div>
-
-      <!-- Harga Jual -->
-      <label class="form-label">Harga Jual</label>
-      <div class="form-input">
-        <input v-model="editBarangForm.harga_jual" type="number" class="input-text input-disabled" />
-      </div>
-
-      <!-- Buttons -->
-      <div class="button-group">
-        <button @click="router.push({ name: 'barang' })" class="btn btn-back">
-          KEMBALI
-        </button>
-        <button class="btn btn-submit">SUBMIT</button>
-      </div>
-    </form>
-  </div>
-
-</template>
-
 <script setup>
 
   import {onMounted, ref, watchEffect} from "vue";
@@ -84,6 +54,36 @@
   });
 
 </script>
+
+<template>
+
+  <div class="form-container">
+    <form @submit.prevent="submit" class="form">
+      <h1 class="form-title">EDIT BARANG</h1>
+
+      <!-- Nama Barang -->
+      <label class="form-label">Nama</label>
+      <div class="form-input">
+        <input v-model="editBarangForm.nama" type="text" class="input-text" />
+      </div>
+
+      <!-- Harga Jual -->
+      <label class="form-label">Harga Jual</label>
+      <div class="form-input">
+        <input v-model="editBarangForm.harga_jual" type="number" class="input-text input-disabled" />
+      </div>
+
+      <!-- Buttons -->
+      <div class="button-group">
+        <button @click="router.push({ name: 'barang' })" class="btn btn-back">
+          KEMBALI
+        </button>
+        <button class="btn btn-submit">SUBMIT</button>
+      </div>
+    </form>
+  </div>
+
+</template>
 
 <style scoped>
   .form-container {
