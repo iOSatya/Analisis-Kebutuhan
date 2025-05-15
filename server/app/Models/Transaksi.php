@@ -8,6 +8,7 @@ class Transaksi extends Model
 {
     protected $table = 'transaksi';
     protected $fillable = [
+        'tanggal',
         'barang_id',
         'nama',
         'harga',

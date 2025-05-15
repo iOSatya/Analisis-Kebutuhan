@@ -77,7 +77,7 @@
       </RouterLink>
       <RouterLink 
         :to="{ name: 'riwayatTransaksi' }"
-        :class="navClass('transaksi')">
+        :class="navClass('riwayatTransaksi')">
         RIWAYAT TRANSAKSI
       </RouterLink>
     </div>

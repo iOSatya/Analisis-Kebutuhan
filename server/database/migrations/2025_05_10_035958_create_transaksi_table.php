@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('transaksi', function (Blueprint $table) {
             $table->id();
+            $table->dateTime('tanggal')->nullable(false);
             $table->integer('barang_id')->nullable(false);
             $table->string('nama')->nullable(false);
             $table->double('harga')->nullable(false);

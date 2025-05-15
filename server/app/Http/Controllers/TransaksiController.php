@@ -20,6 +20,7 @@ class TransaksiController extends Controller
     public function add(Request $request)
     {
         $validated = $request->validate([
+            '*.tanggal' => 'required|dateTime',
             '*.barang_id' => 'required|integer|exists:barang,id',
             '*.nama' => 'required|string',
             '*.harga' => 'required|numeric',

@@ -224,6 +224,7 @@
     <table>
       <thead>
         <tr>
+          <th>No</th>
           <th>Tanggal Berhutang</th>
           <th>Tanggal Lunas</th>
           <th>Nama</th>
@@ -235,7 +236,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="debt in debts" :key="debt.id">
+        <tr v-for="(debt, index) in debts" :key="debt.id">
+          <td>{{ index + 1 }}</td>
           <td>{{ debt.tanggal_berhutang }}</td>
           <td>{{ debt.tanggal_lunas || '-' }}</td>
           <td>{{ debt.nama }}</td>
