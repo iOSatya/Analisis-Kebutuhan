@@ -299,6 +299,7 @@ import {onMounted, ref, watchEffect} from "vue";
   const prosesTransaksi = async () => {
     for (const i in listIndex.value) {
       belanjaanPelanggan.value.push({
+        tanggal: new Date().toISOString().slice(0, 19).replace('T', ' '),
         barang_id: listBarang.value[i].id,
         nama: listBarang.value[i].nama,
         harga: listBarang.value[i].harga_jual,
