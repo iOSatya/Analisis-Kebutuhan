@@ -1,8 +1,10 @@
 <script setup>
-import {onMounted, ref, watchEffect} from "vue";
+import {onMounted, ref, watch, watchEffect} from "vue";
 
+  const currIndex = ref(null);
   const listIndex = ref([]);
   const listBarang = ref([]);
+  const listTotal = ref([]);
   const listJumlahBarangBelanjaanPelanggan = ref([]);
   const belanjaanPelanggan = ref([]);
   const totalHargaKeseluruhan = ref(0);
@@ -50,20 +52,20 @@ import {onMounted, ref, watchEffect} from "vue";
   }
 
   watchEffect(async () => {
-    const data = listJumlahBarangBelanjaanPelanggan.value
-    const listTotal = Array(listBarang.value.length).fill(0);
-    for (const i in listIndex.value) {
-      if (data[i] < 0) {
+    const data = currIndex.value
+    if (data !== null) {
+      if (listJumlahBarangBelanjaanPelanggan.value[data] < 0) {
         alert("jumlah barang tidak boleh negatif")
-        data[i] = 0
-      } else if (data[i] > listBarang.value[i].sisa_stock) {
+        listJumlahBarangBelanjaanPelanggan.value[data] = 0
+      } else if (listJumlahBarangBelanjaanPelanggan.value[data] > listBarang.value[data].sisa_stock) {
         alert("jumlah barang tidak boleh melebihi sisa stock")
-        data[i] = listBarang.value[i].sisa_stock
+        listJumlahBarangBelanjaanPelanggan.value[data] = listBarang.value[data].sisa_stock
       }
-      listTotal.push(data[i] * listBarang.value[i].harga_jual);
+      listTotal.value[data] = listJumlahBarangBelanjaanPelanggan.value[data] * listBarang.value[data].harga_jual
     }
-    totalHargaKeseluruhan.value = eval(listTotal.join('+'))
+    totalHargaKeseluruhan.value = listTotal.value.reduce((a, b) => a + b, 0);
   })
+
   onMounted(async () => {
     try {
       const response = await fetch('http://127.0.0.1:8000/api/barang');
@@ -109,7 +111,7 @@ import {onMounted, ref, watchEffect} from "vue";
           <td>
             <input
                 v-model.number="listJumlahBarangBelanjaanPelanggan[index]"
-                @input="listIndex[index] = index"
+                @input="listIndex[index] = index, currIndex = index"
                 type="number">
           </td>
           <td>{{ listJumlahBarangBelanjaanPelanggan[index] * barang.harga_jual }}</td>
