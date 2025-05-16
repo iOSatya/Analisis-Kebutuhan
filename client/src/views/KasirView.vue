@@ -1,23 +1,64 @@
 <script setup>
-import {onMounted, ref, watch, watchEffect} from "vue";
+  import {onMounted, ref, watchEffect} from "vue";
 
+  const searchInput = ref("");
   const currIndex = ref(null);
   const listIndex = ref([]);
   const listBarang = ref([]);
+  const originalListBarang = ref([]); 
   const listTotal = ref([]);
   const listJumlahBarangBelanjaanPelanggan = ref([]);
   const belanjaanPelanggan = ref([]);
   const totalHargaKeseluruhan = ref(0);
 
-  const prosesTransaksi = async () => {
+  // const prosesTransaksi = async () => {
+  //   for (const i in listIndex.value) {
+  //     belanjaanPelanggan.value.push({
+  //       tanggal: getClientLocalDateTime(),
+  //       barang_id: listBarang.value[i].id,
+  //       nama: listBarang.value[i].nama,
+  //       harga: listBarang.value[i].harga_jual,
+  //       jumlah_barang: listJumlahBarangBelanjaanPelanggan.value[i],
+  //       total: listJumlahBarangBelanjaanPelanggan.value[i] * listBarang.value[i].harga_jual,
+  //     })
+  //   }
+  //   try {
+  //     if (belanjaanPelanggan.value.length > 0) {
+  //       const response = await fetch("http://127.0.0.1:8000/api/transaksi", {
+  //         method: "POST",
+  //         headers: {"Content-Type": "application/json"},
+  //         body: JSON.stringify(belanjaanPelanggan.value)
+  //       });
+
+  //       const responseData = await response.json();
+  //       if (response.ok) {
+  //         alert(responseData.message);
+  //       } else {
+  //         alert("gagal proses transaksi");
+  //       }
+  //     } else {
+  //       alert("keranjang masih kosong");
+  //     }
+  //   } catch (error) {
+  //     // console.log(error);
+  //     alert("kesalahan sistem");
+  //   }
+  //   window.location.reload();
+  // }
+
+    const clearSearchInput = () => {
+      searchInput.value = "";
+    }
+
+    const prosesTransaksi = async () => {
     for (const i in listIndex.value) {
       belanjaanPelanggan.value.push({
         tanggal: getClientLocalDateTime(),
-        barang_id: listBarang.value[i].id,
-        nama: listBarang.value[i].nama,
-        harga: listBarang.value[i].harga_jual,
+        barang_id: originalListBarang.value[i].id,
+        nama: originalListBarang.value[i].nama,
+        harga: originalListBarang.value[i].harga_jual,
         jumlah_barang: listJumlahBarangBelanjaanPelanggan.value[i],
-        total: listJumlahBarangBelanjaanPelanggan.value[i] * listBarang.value[i].harga_jual,
+        total: listJumlahBarangBelanjaanPelanggan.value[i] * originalListBarang.value[i].harga_jual,
       })
     }
     try {
@@ -51,26 +92,58 @@ import {onMounted, ref, watch, watchEffect} from "vue";
           `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
   }
 
+  // watchEffect(async () => {
+  //   const data = currIndex.value
+  //   if (data !== null) {
+  //     if (listJumlahBarangBelanjaanPelanggan.value[data] < 0) {
+  //       alert("jumlah barang tidak boleh negatif")
+  //       listJumlahBarangBelanjaanPelanggan.value[data] = 0
+  //     } else if (listJumlahBarangBelanjaanPelanggan.value[data] > listBarang.value[data].sisa_stock) {
+  //       alert("jumlah barang tidak boleh melebihi sisa stock")
+  //       listJumlahBarangBelanjaanPelanggan.value[data] = listBarang.value[data].sisa_stock
+  //     }
+  //     listTotal.value[data] = listJumlahBarangBelanjaanPelanggan.value[data] * listBarang.value[data].harga_jual
+  //   }
+  //   totalHargaKeseluruhan.value = listTotal.value.reduce((a, b) => a + b, 0);
+  // })
+
   watchEffect(async () => {
     const data = currIndex.value
     if (data !== null) {
       if (listJumlahBarangBelanjaanPelanggan.value[data] < 0) {
         alert("jumlah barang tidak boleh negatif")
         listJumlahBarangBelanjaanPelanggan.value[data] = 0
-      } else if (listJumlahBarangBelanjaanPelanggan.value[data] > listBarang.value[data].sisa_stock) {
+      } else if (listJumlahBarangBelanjaanPelanggan.value[data] > originalListBarang.value[data].sisa_stock) {
         alert("jumlah barang tidak boleh melebihi sisa stock")
-        listJumlahBarangBelanjaanPelanggan.value[data] = listBarang.value[data].sisa_stock
+        listJumlahBarangBelanjaanPelanggan.value[data] = originalListBarang.value[data].sisa_stock
       }
-      listTotal.value[data] = listJumlahBarangBelanjaanPelanggan.value[data] * listBarang.value[data].harga_jual
+      listTotal.value[data] = listJumlahBarangBelanjaanPelanggan.value[data] * originalListBarang.value[data].harga_jual
     }
     totalHargaKeseluruhan.value = listTotal.value.reduce((a, b) => a + b, 0);
   })
 
+  watchEffect(() => {
+    const term = searchInput.value.trim().toLowerCase();
+
+    if (term) {
+      listBarang.value = originalListBarang.value
+        .map((item, index) => ({ ...item, originalIndex: index }))
+        .filter(barang => barang.nama.toLowerCase().includes(term));
+    } else {
+      listBarang.value = originalListBarang.value.map((item, index) => ({ ...item, originalIndex: index }));
+    }
+
+    // listJumlahBarangBelanjaanPelanggan.value = Array(originalListBarang.value.length).fill(0);
+  });
+
   onMounted(async () => {
     try {
       const response = await fetch('http://127.0.0.1:8000/api/barang');
-      listBarang.value = await response.json();
-      listJumlahBarangBelanjaanPelanggan.value = Array(listBarang.value.length).fill(0);
+      const data = await response.json();
+      listBarang.value = data;
+      originalListBarang.value = data;
+      // listJumlahBarangBelanjaanPelanggan.value = Array(listBarang.value.length).fill(0);
+      listJumlahBarangBelanjaanPelanggan.value = Array(originalListBarang.value.length).fill(0);
     } catch (error) {
       // console.error(error);
       alert('gagal mengambil data barang');
@@ -84,9 +157,8 @@ import {onMounted, ref, watch, watchEffect} from "vue";
   <div class="container">
     <!-- Search bar -->
     <div class="search-bar-wrapper">
-      <input type="text" placeholder="cari barang..." class="search-bar" />
-      <button class="btn btn-search">Search</button>
-      <button class="btn btn-clear">Clear</button>
+      <input v-model="searchInput" type="text" placeholder="cari barang..." class="search-bar" />
+      <button @click="clearSearchInput" class="btn btn-clear">Clear</button>
     </div>
 
     <!-- Item table -->
@@ -103,7 +175,7 @@ import {onMounted, ref, watch, watchEffect} from "vue";
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(barang, index) in listBarang" :key="barang.id">
+        <!-- <tr v-for="(barang, index) in listBarang" :key="barang.id">
           <td>{{ index + 1 }}</td>
           <td>{{ barang.nama }}</td>
           <td>{{ barang.sisa_stock }}</td>
@@ -115,6 +187,19 @@ import {onMounted, ref, watch, watchEffect} from "vue";
                 type="number">
           </td>
           <td>{{ listJumlahBarangBelanjaanPelanggan[index] * barang.harga_jual }}</td>
+        </tr> -->
+        <tr v-for="barang in listBarang" :key="barang.id">
+          <td>{{ barang.originalIndex + 1 }}</td>
+          <td>{{ barang.nama }}</td>
+          <td>{{ barang.sisa_stock }}</td>
+          <td>{{ barang.harga_jual }}</td>
+          <td>
+            <input
+                v-model.number="listJumlahBarangBelanjaanPelanggan[barang.originalIndex]"
+                @input="listIndex[barang.originalIndex] = barang.originalIndex, currIndex = barang.originalIndex"
+                type="number">
+          </td>
+          <td>{{ listJumlahBarangBelanjaanPelanggan[barang.originalIndex] * barang.harga_jual }}</td>
         </tr>
         </tbody>
       </table>
