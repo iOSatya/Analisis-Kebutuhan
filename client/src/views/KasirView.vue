@@ -13,7 +13,27 @@
   const belanjaanPelanggan = ref([]);
   const totalHargaKeseluruhan = ref(0);
 
-    const clearSearchInput = () => {
+  const increase = (idx) => {
+    const stok = originalListBarang.value[idx].sisa_stock;
+
+    if (listJumlahBarangBelanjaanPelanggan.value[idx] < stok) {
+      listJumlahBarangBelanjaanPelanggan.value[idx]++;
+      listIndex.value[idx] = idx;
+      currIndex.value     = idx;
+    } else {
+      alertWarning("Jumlah barang tidak boleh melebihi sisa stock!");
+    }
+  };
+
+  const decrease = (idx) => {
+    if (listJumlahBarangBelanjaanPelanggan.value[idx] > 0) {
+      listJumlahBarangBelanjaanPelanggan.value[idx]--;
+      listIndex.value[idx] = idx;
+      currIndex.value     = idx;
+    }
+  };
+
+  const clearSearchInput = () => {
       searchInput.value = "";
     }
 
@@ -129,11 +149,28 @@
             <td>{{ barang.nama }}</td>
             <td>{{ barang.sisa_stock }}</td>
             <td>{{ barang.harga_jual }}</td>
-            <td>
+            <td class="qty-cell">
+              <!-- emoji kurang -->
+              <button
+                @click="decrease(barang.originalIndex)"
+                class="arrow-btn"
+                aria-label="Kurangi"
+              >➖</button>
+
+              <!-- input jumlah -->
               <input
                   v-model.number="listJumlahBarangBelanjaanPelanggan[barang.originalIndex]"
                   @input="listIndex[barang.originalIndex] = barang.originalIndex, currIndex = barang.originalIndex"
-                  type="number">
+                type="number"
+                class="qty-input"
+              />
+
+              <!-- emoji tambah -->
+              <button
+                @click="increase(barang.originalIndex)"
+                class="arrow-btn"
+                aria-label="Tambah"
+              >➕</button>
             </td>
             <td>{{ listJumlahBarangBelanjaanPelanggan[barang.originalIndex] * barang.harga_jual }}</td>
           </tr>
@@ -278,5 +315,45 @@
     cursor: pointer;
   }
 
-</style>
+  /* sel berisi tiga elemen sejajar */
+  .qty-cell {
+    display: flex;
+    align-items: center;          /* vertikal tengah */
+    justify-content: center;      /* blok di tengah sel */
+    gap: 6px;                     /* jarak antar elemen */
+  }
 
+  .arrow-btn {
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.15s;
+  }
+
+  .arrow-btn:hover {
+    background-color: #f0f0f0;
+  }
+
+  .qty-input {
+    width: 60px;
+    text-align: center;
+    padding: 4px 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .qty-input::-webkit-outer-spin-button,
+  .qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;  /* Chrome, Safari, Edge (WebKit) */
+    margin: 0;
+  }
+
+  .qty-input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+  }
+
+
+</style>
