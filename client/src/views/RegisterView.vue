@@ -19,9 +19,11 @@
         body: JSON.stringify(registerForm.value)
       });
       const responseData = await response.json();
-      await alertSuccess(responseData.message);
       if (response.ok) {
+        await alertSuccess(responseData.message);
         sendLoginForm(registerForm.value.email, registerForm.value.password);
+      } else {
+        await alertError(responseData.message);
       }
     } catch (error) {
       // console.log(error);

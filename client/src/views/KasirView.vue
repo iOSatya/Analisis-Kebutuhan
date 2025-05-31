@@ -1,6 +1,5 @@
 <script setup>
   import {onMounted, ref, watchEffect} from "vue";
-  import PrimaryButton from "@/components/PrimaryButton.vue";
   import {alertError, alertSuccess, alertWarning} from "../../lib/alert.js";
 
   const searchInput = ref("");

@@ -17,10 +17,12 @@
         body: JSON.stringify(loginForm.value)
       });
       const responseData = await response.json();
-      await alertSuccess(responseData.message);
       if (response.ok) {
+        await alertSuccess(responseData.message);
         localStorage.setItem("token", responseData.token);
         router.push({name: "barang"});
+      } else {
+        await alertError(responseData.message);
       }
     } catch (error) {
       await alertError("Kesalahan Sistem!");
