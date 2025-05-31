@@ -35,7 +35,7 @@ const navClass = (name) => {
 
 <template>
 
-  <div class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-4 bg-green-300 text-gray-500 shadow-lg">
+  <div class="color fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-4 text-gray-500 shadow-lg">
     <div class="flex space-x-6">
       <RouterLink
         :to="{ name: 'keuangan' }"
@@ -71,3 +71,9 @@ const navClass = (name) => {
   </div>
 
 </template>
+
+<style scoped>
+  .color {
+    background-color: #A0C878;
+  }
+</style>

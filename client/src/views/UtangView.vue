@@ -73,10 +73,11 @@ const markAsPaid = async (id) => {
 </script>
 
 <template>
-
-  <div class="table-container">
-    <table>
-      <thead>
+  <div class="page">
+    <h1 class="title">Utang</h1>
+    <div class="table-container">
+      <table class="table-design">
+        <thead>
         <tr>
           <th>No</th>
           <th>Tanggal Berhutang</th>
@@ -86,10 +87,10 @@ const markAsPaid = async (id) => {
           <th>Jumlah Barang</th>
           <th>Nominal Utang</th>
           <th>Status</th>
-          <th>Aksi</th>
+          <th colspan="2">Aksi</th>
         </tr>
-      </thead>
-      <tbody>
+        </thead>
+        <tbody>
         <tr v-for="(debt, index) in debts" :key="debt.id">
           <td>{{ index + 1 }}</td>
           <td>{{ debt.tanggal_berhutang }}</td>
@@ -99,102 +100,108 @@ const markAsPaid = async (id) => {
           <td>{{ debt.jumlah_barang }}</td>
           <td><b>{{ formatCurrency(debt.nominal_utang) }}</b></td>
           <td :class="getStatusClass(debt.status)">{{ debt.status }}</td>
-          <td class="actions">
-              <button v-if="!debt.tanggal_lunas" @click="markAsPaid(debt.id)" style="cursor: pointer;" title="Tandai Lunas">
-                ✔️
-              </button>
-              <span v-else>✅</span>
-              <button @click="deleteDebt(debt.id)" class="action-button delete-button">🗑️</button>
+          <td v-if="!debt.tanggal_lunas" @click="markAsPaid(debt.id)" class="actions">
+            <span>✔️</span>
+          </td>
+            <td v-else class="status-lunas">
+              <span>✅</span>
+            </td>
+          <td @click="deleteDebt(debt.id)" class="actions">
+            <span>🗑️</span>
           </td>
         </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="add-button-container">
-    <button @click="addDebt" class="add-button">
-      <span class="">➕</span> Tambah Data Utang
-    </button>
+        </tbody>
+        <tfoot>
+          <tr @click="addDebt" class="row-button">
+            <td colspan="10">
+              <span>➕</span> Tambah Data Utang
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
   </div>
 
 </template>
 
 <style scoped>
 
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+  .page {
+    font-family: 'Open sans', sans-serif;
+    padding: 2rem;
+    background-color: #FFFDF6;
+    border-radius: 20px;
+    margin: 140px;
+  }
+
+  .title {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: black;
+  }
+
   .table-container {
-    border: 1px solid #ddd;
-    font-family: sans-serif;
-    margin: 150px auto 20px auto;
-    width: fit-content;
-    height: 400px;
-    overflow: auto;
+    overflow-x: auto;
+    max-height: 400px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: inset 0 0 0 1px #DDEB9D;
   }
 
-  table {
-    width: 1100px;
+  .table-design {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
   }
 
-  th, td {
-    border: 1px solid #ddd;
-    padding: 12px 15px;
-    text-align: left;
-    vertical-align: middle;
+  .table-design th {
+    position: sticky;
+    top: 0;
+    background-color: #A0C878;
+    color: black;
+    padding: 1rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-bottom: 2px solid #DDEB9D;
+    z-index: 1;
   }
 
-  th {
-    background-color: #f8f8f8;
-    font-weight: bold;
-    color: #333;
+  .table-design td {
+    text-align: center;
+    padding: 0.75rem;
+    border-bottom: 1px solid #DDEB9D;
+    font-size: 0.95rem;
+    color: black;
   }
 
-  tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-
-  tbody tr:hover {
-    background-color: #f1f1f1;
+  .table-design tr:hover td {
+    background-color: #FAF6E9;
   }
 
   .actions {
     text-align: center;
   }
 
-  .action-button {
-    background: none;
-    border: none;
+  .actions:hover {
     cursor: pointer;
-    font-size: 1.1em;
-    padding: 5px;
-    margin-left: 15px;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
   }
 
-  .action-button:hover {
-     background-color: #eee;
+  .status-lunas {
+    cursor: not-allowed;
   }
 
-  .add-button-container {
-    margin: auto;
-    width: fit-content;
-  }
-
-  .add-button {
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #f0f0f0;
-    color: #333;
-    border: 1px solid #ccc;
-    border-radius: 20px;
+  .row-button {
     cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    user-select: none;
+    transition: background-color .2s;
   }
 
-  .add-button:hover {
-    background-color: #e0e0e0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  .row-button:active td {
+    background-color: #EFE9D9;
   }
 
 </style>

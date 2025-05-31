@@ -21,110 +21,93 @@ const formatCurrency = (value) => {
 </script>
 
 <template>
-
-  <div class="table-container">
-    <table class="">
-      <thead>
-      <tr>
-        <th>No</th>
-        <th>Tanggal</th>
-        <th>Nama</th>
-        <th>Harga</th>
-        <th>Jumlah Barang</th>
-        <th>Total</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="(item, index) in transaksi" :key="item.id">
-        <td>{{ index + 1 }}</td>
-        <td>{{ item.tanggal }}</td>
-        <td>{{ item.nama }}</td>
-        <td>{{ formatCurrency(item.harga) }}</td>
-        <td>{{ item.jumlah_barang }}</td>
-        <td>{{ item.total }}</td>
-      </tr>
-      </tbody>
-    </table>
+  <div class="page">
+    <h1 class="title">Riwayat Transaksi</h1>
+    <div class="table-container">
+      <table class="table-design">
+        <thead>
+        <tr>
+          <th>No</th>
+          <th>Tanggal</th>
+          <th>Nama</th>
+          <th>Harga</th>
+          <th>Jumlah Barang</th>
+          <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(item, index) in transaksi" :key="item.id">
+          <td>{{ index + 1 }}</td>
+          <td>{{ item.tanggal }}</td>
+          <td>{{ item.nama }}</td>
+          <td>{{ formatCurrency(item.harga) }}</td>
+          <td>{{ item.jumlah_barang }}</td>
+          <td>{{ item.total }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+
 
 </template>
 
 <style scoped>
 
-.table-container {
-  border: 1px solid #ddd;
-  font-family: sans-serif;
-  margin: 150px auto 20px auto;
-  width: fit-content;
-  height: 400px;
-  overflow: auto;
-}
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
-table {
-  width: 800px;
-}
+  .page {
+    font-family: 'Open sans', sans-serif;
+    padding: 2rem;
+    background-color: #FFFDF6;
+    border-radius: 20px;
+    margin: 140px;
+  }
 
-th, td {
-  border: 1px solid #ddd;
-  padding: 12px 15px;
-  text-align: left;
-  vertical-align: middle;
-}
+  .title {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: black;
+  }
 
-th {
-  background-color: #f8f8f8;
-  font-weight: bold;
-  color: #333;
-}
+  .table-container {
+    overflow-x: auto;
+    max-height: 400px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: inset 0 0 0 1px #DDEB9D;
+  }
 
-tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
+  .table-design {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+  }
 
-tbody tr:hover {
-  background-color: #f1f1f1;
-}
+  .table-design th {
+    position: sticky;
+    top: 0;
+    background-color: #A0C878;
+    color: black;
+    padding: 1rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-bottom: 2px solid #DDEB9D;
+    z-index: 1;
+  }
 
-.actions {
-  text-align: center;
-}
+  .table-design td {
+    text-align: center;
+    padding: 0.75rem;
+    border-bottom: 1px solid #DDEB9D;
+    font-size: 0.95rem;
+    color: black;
+  }
 
-.action-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.1em;
-  padding: 5px;
-  margin: 0 4px;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
-}
-
-.action-button:hover {
-  background-color: #eee;
-}
-
-.add-button-container {
-  margin: auto;
-  width: fit-content;
-}
-
-.add-button {
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #f0f0f0;
-  color: #333;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-}
-
-.add-button:hover {
-  background-color: #e0e0e0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-}
+  .table-design tr:hover td {
+    background-color: #FAF6E9;
+  }
 
 </style>

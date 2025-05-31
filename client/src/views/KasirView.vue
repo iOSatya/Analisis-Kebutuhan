@@ -102,7 +102,8 @@
 
 <template>
 
-  <div class="container">
+  <div class="page">
+    <h1 class="title">Kasir</h1>
     <!-- Search bar -->
     <div class="search-bar-wrapper">
       <input v-model="searchInput" type="text" placeholder="cari barang..." class="search-bar" />
@@ -110,48 +111,35 @@
     </div>
 
     <!-- Item table -->
-    <div class="table-wrapper">
-      <table>
-        <thead>
-        <tr>
-          <th>No</th>
-          <th>Nama</th>
-          <th>Sisa Stock</th>
-          <th>Harga</th>
-          <th>Jumlah Barang</th>
-          <th>Total</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- <tr v-for="(barang, index) in listBarang" :key="barang.id">
-          <td>{{ index + 1 }}</td>
-          <td>{{ barang.nama }}</td>
-          <td>{{ barang.sisa_stock }}</td>
-          <td>{{ barang.harga_jual }}</td>
-          <td>
-            <input
-                v-model.number="listJumlahBarangBelanjaanPelanggan[index]"
-                @input="listIndex[index] = index, currIndex = index"
-                type="number">
-          </td>
-          <td>{{ listJumlahBarangBelanjaanPelanggan[index] * barang.harga_jual }}</td>
-        </tr> -->
-        <tr v-for="barang in listBarang" :key="barang.id">
-          <td>{{ barang.originalIndex + 1 }}</td>
-          <td>{{ barang.nama }}</td>
-          <td>{{ barang.sisa_stock }}</td>
-          <td>{{ barang.harga_jual }}</td>
-          <td>
-            <input
-                v-model.number="listJumlahBarangBelanjaanPelanggan[barang.originalIndex]"
-                @input="listIndex[barang.originalIndex] = barang.originalIndex, currIndex = barang.originalIndex"
-                type="number">
-          </td>
-          <td>{{ listJumlahBarangBelanjaanPelanggan[barang.originalIndex] * barang.harga_jual }}</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+    <div class="table-container">
+        <table class="table-design">
+          <thead>
+          <tr>
+            <th>No</th>
+            <th>Nama</th>
+            <th>Sisa Stock</th>
+            <th>Harga</th>
+            <th>Jumlah Barang</th>
+            <th>Total</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="barang in listBarang" :key="barang.id">
+            <td>{{ barang.originalIndex + 1 }}</td>
+            <td>{{ barang.nama }}</td>
+            <td>{{ barang.sisa_stock }}</td>
+            <td>{{ barang.harga_jual }}</td>
+            <td>
+              <input
+                  v-model.number="listJumlahBarangBelanjaanPelanggan[barang.originalIndex]"
+                  @input="listIndex[barang.originalIndex] = barang.originalIndex, currIndex = barang.originalIndex"
+                  type="number">
+            </td>
+            <td>{{ listJumlahBarangBelanjaanPelanggan[barang.originalIndex] * barang.harga_jual }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
 
     <!-- Total harga keseluruhan -->
     <br>
@@ -214,21 +202,68 @@
     font-family: sans-serif;
   }
 
-  .table-wrapper {
-    max-height: 300px;
-    overflow-y: auto;
-    border: 1px solid #ddd;
+  @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+  .page {
+    font-family: 'Open sans', sans-serif;
+    padding: 2rem;
+    background-color: #FFFDF6;
+    border-radius: 20px;
+    margin: 140px;
   }
 
-  table {
+  .title {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: black;
+  }
+
+  .summary-title {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: black;
+  }
+
+  .table-container {
+    overflow-x: auto;
+    max-height: 400px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: inset 0 0 0 1px #DDEB9D;
+  }
+
+  .table-design {
     width: 100%;
     border-collapse: collapse;
+    min-width: 600px;
   }
 
-  th, td {
-    text-align: left;
-    padding: 8px;
-    border-bottom: 1px solid #ddd;
+  .table-design th {
+    position: sticky;
+    top: 0;
+    background-color: #A0C878;
+    color: black;
+    padding: 1rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-bottom: 2px solid #DDEB9D;
+    z-index: 1;
+  }
+
+  .table-design td {
+    text-align: center;
+    padding: 0.75rem;
+    border-bottom: 1px solid #DDEB9D;
+    font-size: 0.95rem;
+    color: black;
+  }
+
+  .table-design tr:hover td {
+    background-color: #FAF6E9;
   }
 
   button {

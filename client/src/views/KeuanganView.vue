@@ -31,11 +31,11 @@
 </script>
 
 <template>
-  <div class="financial-details">
+  <div class="page">
     <h1 class="title">Keuangan</h1>
     
     <div class="table-container">
-      <table class="financial-table">
+      <table class="table-design">
         <thead>
           <tr>
             <th>Nama Barang</th>
@@ -63,7 +63,7 @@
 
     <h2 class="summary-title">Ringkasan</h2>
     <div class="table-container">
-      <table class="financial-table summary">
+      <table class="table-design summary">
         <thead>
           <tr>
             <th>Jumlah Barang</th>
@@ -94,15 +94,13 @@
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
-.financial-details {
-  font-family: 'Quicksand', sans-serif;
+.page {
+  font-family: 'Open sans', sans-serif;
   padding: 2rem;
-  background-color: #fff0f6;
+  background-color: #FFFDF6;
   border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(255, 105, 180, 0.2);
-  color: #333;
   margin: 140px;
 }
 
@@ -110,7 +108,7 @@
   font-size: 1.8rem;
   text-align: center;
   margin-bottom: 1.5rem;
-  color: #d63384;
+  color: black;
 }
 
 .summary-title {
@@ -118,7 +116,7 @@
   margin-bottom: 0.75rem;
   font-weight: 600;
   font-size: 1.2rem;
-  color: #c2255c;
+  color: black;
 }
 
 .table-container {
@@ -126,37 +124,38 @@
   max-height: 400px;
   background-color: #fff;
   border-radius: 12px;
-  box-shadow: inset 0 0 0 1px #f8c6d8;
+  box-shadow: inset 0 0 0 1px #DDEB9D;
 }
 
-.financial-table {
+.table-design {
   width: 100%;
   border-collapse: collapse;
   min-width: 600px;
 }
 
-.financial-table th {
+.table-design th {
   position: sticky;
   top: 0;
-  background-color: #ffe3ec;
-  color: #6f1d1b;
+  background-color: #A0C878;
+  color: black;
   padding: 1rem;
-  text-align: left;
+  text-align: center;
   font-weight: 600;
-  font-size: 0.95rem;
-  border-bottom: 2px solid #f8c6d8;
+  font-size: 1.1rem;
+  border-bottom: 2px solid #DDEB9D;
   z-index: 1;
 }
 
-.financial-table td {
-  padding: 1rem;
-  border-bottom: 1px solid #f8c6d8;
+.table-design td {
+  text-align: center;
+  padding: 0.75rem;
+  border-bottom: 1px solid #DDEB9D;
   font-size: 0.95rem;
-  color: #4b1e27;
+  color: black;
 }
 
-.financial-table tr:hover td {
-  background-color: #ffeaf3;
+.table-design tr:hover td {
+  background-color: #FAF6E9;
 }
 
 .text-profit {
