@@ -3,6 +3,7 @@
   import {alertError} from "../../lib/alert.js";
 
   const infoBarang = ref([]);
+  const listBarangTerlaris = ref([]);
   const jumlahBarang = computed(() => infoBarang.value.length);
   const totalModal = computed(() =>
     infoBarang.value.reduce((sum, item) => sum + Number(item.modal), 0)
@@ -21,13 +22,19 @@
 
   onMounted(async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/barang');
+      const response = await fetch('http://127.0.0.1:8000/api/keuangan');
       infoBarang.value = await response.json();
     } catch (error) {
-      await alertError("Gagal mengambil data barang!")
+      await alertError("Gagal mengambil data barang!");
+    }
+
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/barang/terlaris');
+      listBarangTerlaris.value = await response.json();
+    } catch (error) {
+      await alertError("Gagal mengambil data barang terlaris!");
     }
   });
-
 </script>
 
 <template>
@@ -56,6 +63,24 @@
               <span v-else-if="info.status === 'rugi'" class="text-loss">Rugi</span>
               <span v-else class="text-neutral">BEP</span>
             </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="summary-title">Barang Terlaris</h2>
+    <div class="table-container">
+      <table class="table-design">
+        <thead>
+          <tr>
+            <th>Nama Barang</th>
+            <th>Total Terjual</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in listBarangTerlaris" :key="index">
+            <td>{{ item.nama }}</td>
+            <td>{{ item.total_terjual }}</td>
           </tr>
         </tbody>
       </table>
@@ -159,17 +184,17 @@
 }
 
 .text-profit {
-  color: #38a169; /* soft green */
+  color: #38a169 !important; /* soft green */
   font-weight: bold;
 }
 
 .text-loss {
-  color: #e53e3e; /* red */
+  color: #e53e3e !important; /* red */
   font-weight: bold;
 }
 
 .text-neutral {
-  color: #d69e2e; /* gold */
+  color: #d69e2e !important; /* gold */
   font-weight: bold;
 }
 </style>

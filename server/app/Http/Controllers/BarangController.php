@@ -5,19 +5,31 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use function PHPUnit\Framework\isNumeric;
 
 class BarangController extends Controller
 {
-    public function get($id = null)
+    public function get($param = null)
     {
-        if ($id === null) {
-            return Barang::where('visibility', true)->get();
-        } else {
-            return Barang::where('id', $id)
+        if ($param === "terlaris") {
+            $data = DB::table('barang')
+                ->select('nama', DB::raw('SUM(terjual) as total_terjual'))
+                ->groupBy('nama')
+                ->orderByDesc('total_terjual')
+                ->get();
+
+            return response()->json($data);
+        } elseif (is_numeric($param)) {
+            return Barang::where('id', $param)
                         ->where('visibility', true)
                         ->firstOrFail();
+        } else {
+            return Barang::where('visibility', true)->get();
         }
     }
+
 
     public function add(Request $request)
     {
@@ -43,7 +55,6 @@ class BarangController extends Controller
         $barang->save();
         return response()->json(['message' => 'barang berhasil diupdate']);
     }
-
 
     public function delete($id)
     {
