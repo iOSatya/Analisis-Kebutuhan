@@ -2,6 +2,7 @@
 
   import router from '@/router';
   import { ref } from 'vue';
+  import {alertError, alertSuccess} from "../../lib/alert.js";
 
   const item = ref({
     nama: '',
@@ -22,14 +23,14 @@
 
       const responseData = await response.json();
       if (response.ok) {
-        alert(responseData.message);
+        await alertSuccess(responseData.message);
         await router.push({name: "barang"});
       } else {
-        alert("gagal menambahkan barang");
+        await alertError("Gagal menambahkan barang!");
       }
     } catch (error) {
       console.log(error);
-      alert("kesalahan sistem");
+      await alertError("Kesalahan sistem!");
     }
   };
 

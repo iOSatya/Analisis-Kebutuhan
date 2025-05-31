@@ -1,5 +1,7 @@
 <script setup>
   import {onMounted, ref, watchEffect} from "vue";
+  import PrimaryButton from "@/components/PrimaryButton.vue";
+  import {alertError, alertSuccess, alertWarning} from "../../lib/alert.js";
 
   const searchInput = ref("");
   const currIndex = ref(null);
@@ -10,41 +12,6 @@
   const listJumlahBarangBelanjaanPelanggan = ref([]);
   const belanjaanPelanggan = ref([]);
   const totalHargaKeseluruhan = ref(0);
-
-  // const prosesTransaksi = async () => {
-  //   for (const i in listIndex.value) {
-  //     belanjaanPelanggan.value.push({
-  //       tanggal: getClientLocalDateTime(),
-  //       barang_id: listBarang.value[i].id,
-  //       nama: listBarang.value[i].nama,
-  //       harga: listBarang.value[i].harga_jual,
-  //       jumlah_barang: listJumlahBarangBelanjaanPelanggan.value[i],
-  //       total: listJumlahBarangBelanjaanPelanggan.value[i] * listBarang.value[i].harga_jual,
-  //     })
-  //   }
-  //   try {
-  //     if (belanjaanPelanggan.value.length > 0) {
-  //       const response = await fetch("http://127.0.0.1:8000/api/transaksi", {
-  //         method: "POST",
-  //         headers: {"Content-Type": "application/json"},
-  //         body: JSON.stringify(belanjaanPelanggan.value)
-  //       });
-
-  //       const responseData = await response.json();
-  //       if (response.ok) {
-  //         alert(responseData.message);
-  //       } else {
-  //         alert("gagal proses transaksi");
-  //       }
-  //     } else {
-  //       alert("keranjang masih kosong");
-  //     }
-  //   } catch (error) {
-  //     // console.log(error);
-  //     alert("kesalahan sistem");
-  //   }
-  //   window.location.reload();
-  // }
 
     const clearSearchInput = () => {
       searchInput.value = "";
@@ -71,16 +38,16 @@
 
         const responseData = await response.json();
         if (response.ok) {
-          alert(responseData.message);
+          await alertSuccess(responseData.message);
         } else {
-          alert("gagal proses transaksi");
+          await alertError("Proses transaksi gagal!");
         }
       } else {
-        alert("keranjang masih kosong");
+        await alertWarning("Keranjang masih kosong!");
       }
     } catch (error) {
       // console.log(error);
-      alert("kesalahan sistem");
+      await alertError("Kesalahan sistem!");
     }
     window.location.reload();
   }
@@ -92,29 +59,14 @@
           `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
   }
 
-  // watchEffect(async () => {
-  //   const data = currIndex.value
-  //   if (data !== null) {
-  //     if (listJumlahBarangBelanjaanPelanggan.value[data] < 0) {
-  //       alert("jumlah barang tidak boleh negatif")
-  //       listJumlahBarangBelanjaanPelanggan.value[data] = 0
-  //     } else if (listJumlahBarangBelanjaanPelanggan.value[data] > listBarang.value[data].sisa_stock) {
-  //       alert("jumlah barang tidak boleh melebihi sisa stock")
-  //       listJumlahBarangBelanjaanPelanggan.value[data] = listBarang.value[data].sisa_stock
-  //     }
-  //     listTotal.value[data] = listJumlahBarangBelanjaanPelanggan.value[data] * listBarang.value[data].harga_jual
-  //   }
-  //   totalHargaKeseluruhan.value = listTotal.value.reduce((a, b) => a + b, 0);
-  // })
-
   watchEffect(async () => {
     const data = currIndex.value
     if (data !== null) {
       if (listJumlahBarangBelanjaanPelanggan.value[data] < 0) {
-        alert("jumlah barang tidak boleh negatif")
+        await alertWarning("Jumlah barang tidak boleh negatif!")
         listJumlahBarangBelanjaanPelanggan.value[data] = 0
       } else if (listJumlahBarangBelanjaanPelanggan.value[data] > originalListBarang.value[data].sisa_stock) {
-        alert("jumlah barang tidak boleh melebihi sisa stock")
+        await alertWarning("Jumlah barang tidak boleh melebihi sisa stock!")
         listJumlahBarangBelanjaanPelanggan.value[data] = originalListBarang.value[data].sisa_stock
       }
       listTotal.value[data] = listJumlahBarangBelanjaanPelanggan.value[data] * originalListBarang.value[data].harga_jual
@@ -132,8 +84,6 @@
     } else {
       listBarang.value = originalListBarang.value.map((item, index) => ({ ...item, originalIndex: index }));
     }
-
-    // listJumlahBarangBelanjaanPelanggan.value = Array(originalListBarang.value.length).fill(0);
   });
 
   onMounted(async () => {
@@ -142,11 +92,9 @@
       const data = await response.json();
       listBarang.value = data;
       originalListBarang.value = data;
-      // listJumlahBarangBelanjaanPelanggan.value = Array(listBarang.value.length).fill(0);
       listJumlahBarangBelanjaanPelanggan.value = Array(originalListBarang.value.length).fill(0);
     } catch (error) {
-      // console.error(error);
-      alert('gagal mengambil data barang');
+      await alertError('Gagal mengambil data barang!');
     }
   });
 

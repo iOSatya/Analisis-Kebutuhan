@@ -2,6 +2,7 @@
 
   import router from '@/router';
   import { ref } from 'vue';
+  import {alertError} from "../../lib/alert.js";
 
   const barang = ref([]);
 
@@ -10,8 +11,7 @@
       const response = await fetch('http://127.0.0.1:8000/api/barang');
       barang.value = await response.json();
     } catch (error) {
-      // console.error(error);
-      alert('gagal mengambil data barang');
+      await alertError('Gagal mengambil data barang!');
     }
   })();
 
@@ -38,11 +38,10 @@
       if (response.ok) {
         barang.value = barang.value.filter(item => item.id !== id);
       } else {
-        alert('gagal menghapus data barang');
+        await alertError('Gagal menghapus data barang!');
       }
     } catch (error) {
-      // console.error(error);
-      alert('gagal menghapus data barang');
+      await alertError('Gagal menghapus data barang!');
     }
   };
   

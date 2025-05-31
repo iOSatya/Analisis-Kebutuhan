@@ -2,6 +2,7 @@
 
   import router from '@/router';
   import { ref } from 'vue';
+  import {alertError, alertSuccess} from "../../lib/alert.js";
 
   const loginForm = ref({
     email: "",
@@ -16,14 +17,13 @@
         body: JSON.stringify(loginForm.value)
       });
       const responseData = await response.json();
-      alert(responseData.message);
+      await alertSuccess(responseData.message);
       if (response.ok) {
         localStorage.setItem("token", responseData.token);
         router.push({name: "barang"});
       }
     } catch (error) {
-      // console.log(error);
-      alert("Kesalahan Sistem");
+      await alertError("Kesalahan Sistem!");
     }
   }
 

@@ -2,10 +2,8 @@
 
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UtangController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 

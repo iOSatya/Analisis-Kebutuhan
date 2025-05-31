@@ -1,5 +1,6 @@
 <script setup>
   import { computed, onMounted, ref } from 'vue';
+  import {alertError} from "../../lib/alert.js";
 
   const infoBarang = ref([]);
   const jumlahBarang = computed(() => infoBarang.value.length);
@@ -23,7 +24,7 @@
       const response = await fetch('http://127.0.0.1:8000/api/barang');
       infoBarang.value = await response.json();
     } catch (error) {
-      alert('gagal mengambil data keuangan');
+      await alertError("Gagal mengambil data barang!")
     }
   });
 

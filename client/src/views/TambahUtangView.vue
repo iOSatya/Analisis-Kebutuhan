@@ -2,6 +2,7 @@
 
 import router from '@/router';
 import { ref, watchEffect } from 'vue';
+import {alertError, alertSuccess} from "../../lib/alert.js";
 
 const barang = ref([]);
 
@@ -22,14 +23,14 @@ const submit = async () => {
       body: JSON.stringify(tambahUtangForm.value)
     });
     if (response.ok) {
-      alert("berhasil menambah data utang");
+      await alertSuccess("Berhasil menambah data utang");
       router.push({ name: 'utang' });
     } else {
-      alert("gagal menambah data utang");
+      await alertError("Gagal menambah data utang!");
     }
   } catch (error) {
     // console.log(error);
-    alert("kesalahan sistem");
+    await alertError("Kesalahan sistem!");
   }
 }
 

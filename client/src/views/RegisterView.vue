@@ -2,6 +2,7 @@
 
   import { ref } from 'vue';
   import router from '@/router';
+  import {alertError, alertSuccess} from "../../lib/alert.js";
 
   const registerForm = ref({
     name: "",
@@ -18,13 +19,13 @@
         body: JSON.stringify(registerForm.value)
       });
       const responseData = await response.json();
-      alert(responseData.message);
+      await alertSuccess(responseData.message);
       if (response.ok) {
         sendLoginForm(registerForm.value.email, registerForm.value.password);
       }
     } catch (error) {
       // console.log(error);
-      alert("Kesalahan Sistem");
+      await alertError("Kesalahan sistem!");
     }
   }
 
@@ -45,7 +46,7 @@
       }
     } catch (error) {
       // console.log(error);
-      alert("Kesalahan Sistem");
+      await alertError("Kesalahan Sistem!");
     }
   }
 

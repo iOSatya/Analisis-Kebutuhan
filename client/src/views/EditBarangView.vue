@@ -3,6 +3,7 @@
   import {onMounted, ref, watchEffect} from "vue";
   import router from "@/router/index.js";
   import {useRoute} from "vue-router";
+  import {alertError, alertSuccess, alertWarning} from "../../lib/alert.js";
 
   const route = useRoute();
   const editBarangForm = ref({
@@ -17,21 +18,20 @@
         body: JSON.stringify(editBarangForm.value)
       });
       if (response.ok) {
-        alert("berhasil edit data barang");
+        await alertSuccess("Berhasil edit data barang!");
         await router.push({name: 'barang'});
       } else {
-        alert("gagal edit data barang");
+        await alertError("Gagal edit data barang!");
       }
     } catch (error) {
-      // console.log(error);
-      alert("kesalahan sistem");
+      await alertError("Kesalahan sistem!");
     }
   }
 
   watchEffect(async () => {
       const val = editBarangForm.value.harga_jual;
       if (val < 0) {
-        alert("input harga tidak valid")
+        await alertWarning("Harga harus positif!");
         editBarangForm.value.harga_jual = 0;
       }
     }
@@ -45,11 +45,10 @@
         editBarangForm.value.nama = data.nama;
         editBarangForm.value.harga_jual = data.harga_jual;
       } else {
-        alert("gagal fetch data barang");
+        await alertError("Gagal memuat data barang!");
       }
     } catch (error) {
-      // console.log(error);
-      alert("kesalahan sistem");
+      await alertError("Kesalahan sistem!");
     }
   });
 

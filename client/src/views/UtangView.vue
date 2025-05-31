@@ -2,6 +2,7 @@
 
 import router from '@/router';
 import { ref } from 'vue';
+import {alertError} from "../../lib/alert.js";
 
 const debts = ref([]);
 
@@ -11,7 +12,7 @@ const debts = ref([]);
     debts.value = await response.json();
   } catch (error) {
     // console.error(error);
-    alert('gagal mengambil data utang');
+    await alertError('Gagal mengambil data utang!');
   }
 })();
 
@@ -36,11 +37,11 @@ const deleteDebt = async (id) => {
     if (response.ok) {
       debts.value = debts.value.filter(debt => debt.id !== id);
     } else {
-      alert('gagal hapus utang');
+      await alertError('Gagal menghapus data utang!');
     }
   } catch (error) {
     // console.error(error);
-    alert('gagal hapus utang');
+    await alertError('Gagal menghapus data utang!');
   }
 };
 
@@ -61,11 +62,11 @@ const markAsPaid = async (id) => {
         debts.value[debtIndex].tanggal_lunas = tanggalLunas;
       }
     } else {
-      alert('gagal menandai lunas utang');
+      await alertError('Gagal mengubah status utang!');
     }
   } catch (error) {
     // console.error(error);
-    alert('gagal menandai lunas utang');
+    await alertError('Gagal mengubah status utang!');
   }
 };
 
