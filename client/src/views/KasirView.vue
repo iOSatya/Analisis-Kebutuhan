@@ -126,8 +126,8 @@
     <h1 class="title">Kasir</h1>
     <!-- Search bar -->
     <div class="search-bar-wrapper">
-      <input v-model="searchInput" type="text" placeholder="cari barang..." class="search-bar" />
-      <button @click="clearSearchInput" class="btn btn-clear">Clear</button>
+      <input v-model="searchInput" type="text" placeholder="Cari barang..." class="search-bar" />
+      <button @click="clearSearchInput" class="btn btn-clear">Hapus</button>
     </div>
 
     <!-- Item table -->
@@ -175,16 +175,18 @@
             <td>{{ listJumlahBarangBelanjaanPelanggan[barang.originalIndex] * barang.harga_jual }}</td>
           </tr>
           </tbody>
+          <tfoot>
+          <tr class="total-price-row">
+            <td colspan="5" class="total-price-desc">Total Harga Keseluruhan:</td>
+            <td>{{ totalHargaKeseluruhan }}</td>
+          </tr>
+          </tfoot>
         </table>
       </div>
 
-    <!-- Total harga keseluruhan -->
-    <br>
-    <h2>Total Harga Keseluruhan : {{ totalHargaKeseluruhan }} </h2>
-
     <!-- Proses Transaksi -->
     <button class="process-btn" @click="prosesTransaksi">
-      💲 Proses Transaksi
+      💾 Simpan Transaksi
     </button>
   </div>
 
@@ -201,26 +203,21 @@
   .search-bar {
     flex: 1;
     padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid #A0C878;
+    border-radius: 10px;
+  }
+
+  .search-bar:focus {
+    outline: 2px solid #A0C878;
   }
 
   .btn {
     padding: 8px 14px;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s ease;
-  }
-
-  .btn-search {
-    background-color: #4caf50;
-    color: white;
-  }
-
-  .btn-search:hover {
-    background-color: #45a049;
   }
 
   .btn-clear {
@@ -230,13 +227,6 @@
 
   .btn-clear:hover {
     background-color: #d32f2f;
-  }
-
-  .container {
-    padding: 20px;
-    max-width: 900px;
-    margin: 140px auto 0 auto;
-    font-family: sans-serif;
   }
 
   @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
@@ -253,14 +243,6 @@
     font-size: 1.8rem;
     text-align: center;
     margin-bottom: 1.5rem;
-    color: black;
-  }
-
-  .summary-title {
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
-    font-weight: 600;
-    font-size: 1.2rem;
     color: black;
   }
 
@@ -309,18 +291,24 @@
   }
 
   .process-btn {
+    background-color: #A0C878;
+    color: black;
+    border: none;
+    border-radius: 10px;
     margin-top: 20px;
-    font-size: 18px;
+    font-size: 1.1rem;
+    font-weight: 600;
     padding: 10px 20px;
     cursor: pointer;
+    display: block;
+    margin-left: auto;
   }
 
-  /* sel berisi tiga elemen sejajar */
   .qty-cell {
     display: flex;
-    align-items: center;          /* vertikal tengah */
-    justify-content: center;      /* blok di tengah sel */
-    gap: 6px;                     /* jarak antar elemen */
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
   }
 
   .arrow-btn {
@@ -355,5 +343,13 @@
     -moz-appearance: textfield; /* Firefox */
   }
 
+  .total-price-row {
+    font-weight: 600;
+  }
+
+  .total-price-desc {
+    text-align: left !important;
+    padding-left: 2rem !important;
+  }
 
 </style>
